@@ -1,11 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getAllBlogPostSlugs, getBlogPostBySlug } from "@/lib/wp";
-
-export async function generateStaticParams() {
-  const slugs = await getAllBlogPostSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
+import { getBlogPostBySlug } from "@/lib/content";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("es-CL", {

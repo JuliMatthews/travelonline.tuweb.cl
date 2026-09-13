@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { getAllBlogPosts } from "@/lib/wp";
+import { getAllBlogPosts } from "@/lib/content";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("es-CL", {

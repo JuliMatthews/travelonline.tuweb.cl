@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { getAllPackageSlugs, getPackageBySlug } from "@/lib/wp";
+import { getPackageBySlug } from "@/lib/content";
 import { PackagePriceBlock } from "@/components/PackagePriceBlock";
 
 const PACKAGE_TYPE_LABELS: Record<string, string> = {
@@ -10,11 +10,6 @@ const PACKAGE_TYPE_LABELS: Record<string, string> = {
   combinado: "Combinado",
   promocion_2x1: "Promoción 2x1",
 };
-
-export async function generateStaticParams() {
-  const slugs = await getAllPackageSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
 
 export default async function PackagePage({
   params,
@@ -30,15 +25,14 @@ export default async function PackagePage({
   return (
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       <div className="flex flex-wrap items-center gap-2 text-sm text-foreground/60">
-        {pkg.regions.nodes.map((r) => (
+        {pkg.region && (
           <Link
-            key={r.slug}
-            href={`/destinos/${r.slug}`}
+            href={`/destinos/${pkg.region.slug}`}
             className="rounded-full bg-brand-light px-3 py-1 text-brand-dark"
           >
-            {r.name}
+            {pkg.region.name}
           </Link>
-        ))}
+        )}
         {pkg.packageType && (
           <span className="rounded-full border border-black/10 px-3 py-1">
             {PACKAGE_TYPE_LABELS[pkg.packageType] ?? pkg.packageType}

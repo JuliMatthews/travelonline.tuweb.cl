@@ -1,4 +1,4 @@
-import type { PackageSummary } from "@/lib/wp";
+import type { PackageSummary } from "@/lib/content";
 
 // Agrupa paquetes que son "el mismo producto, distinto destino" bajo una
 // sola entrada en el selector de /cotizar (pedido de Julio: menos ruido en

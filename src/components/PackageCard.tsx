@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import type { PackageSummary } from "@/lib/wp";
+import type { PackageSummary } from "@/lib/content";
 
 const PACKAGE_TYPE_LABELS: Record<string, string> = {
   circuito: "Circuito",

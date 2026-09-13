@@ -1,12 +1,13 @@
 import { PackageCard } from "@/components/PackageCard";
-import { getAllPackages, LEGACY_PRODUCT_SLUGS } from "@/lib/wp";
+import { getAllPackages } from "@/lib/content";
 
 export default async function PromocionesPage() {
   const packages = await getAllPackages();
-  // Fiel al sitio original: "Promociones" ahí es el catálogo completo de
-  // productos de WooCommerce (29), no solo los marcados 2x1 — ver la nota
-  // en LEGACY_PRODUCT_SLUGS.
-  const promociones = packages.filter((pkg) => LEGACY_PRODUCT_SLUGS.includes(pkg.slug));
+  // Fiel al sitio original: "Promociones" ahí era el catálogo completo de
+  // productos de WooCommerce (29), no solo los marcados 2x1. Hoy es un
+  // campo editable por paquete (`show_in_promociones` en el panel) en vez
+  // de una lista fija de slugs en código.
+  const promociones = packages.filter((pkg) => pkg.showInPromociones);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">

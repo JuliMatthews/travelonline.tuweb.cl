@@ -1,10 +1,10 @@
 import Image from "next/image";
-import type { WpPage } from "@/lib/wp";
+import type { StaticPageData } from "@/lib/content";
 
-// Renderiza el HTML que viene del editor de WordPress (bloques/clásico).
-// El contenido lo escribe el propio staff en wp-admin, no un usuario público,
-// así que renderizarlo tal cual es aceptable acá (no es una entrada no confiable).
-export function WpContent({ title, content, heroGallery }: WpPage) {
+// Renderiza el HTML de una página estática (Nosotros, Contacto) editada
+// desde el panel — la escribe el propio staff, no un usuario público, así
+// que renderizarla tal cual es aceptable acá (no es una entrada no confiable).
+export function StaticPageContent({ title, content, heroGallery }: StaticPageData) {
   return (
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       <h1 className="font-display text-3xl font-bold text-brand-dark">{title}</h1>

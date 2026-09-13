@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { calculateQuote } from "@/lib/pricing";
 import { formatPrice, type Currency } from "@/lib/currency";
-import type { PackageDetail } from "@/lib/wp";
+import type { PackageDetail } from "@/lib/content";
 import { findFamilyContaining, type PackageSelectorOption } from "@/lib/packageFamilies";
 
 // Valor único para el <select> combinando familias y paquetes sueltos en un

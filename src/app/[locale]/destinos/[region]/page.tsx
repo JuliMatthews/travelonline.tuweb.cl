@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getRegionWithPackages } from "@/lib/wp";
+import { getRegionWithPackages } from "@/lib/content";
 import { PackageCard } from "@/components/PackageCard";
 import { REGION_SLUGS } from "@/lib/regions";
 

@@ -1,7 +1,7 @@
 // Motor de cálculo de cotización — función pura, sin React ni red, para que
 // se pueda usar TAL CUAL tanto en el cliente (recalculo en vivo mientras el
 // usuario cambia el formulario) como en el servidor (/api/quote, que vuelve
-// a calcular todo desde los datos frescos de WordPress y NUNCA confía en un
+// a calcular todo desde los datos frescos de la base de datos y NUNCA confía en un
 // total que mande el navegador). Ver plan: "nunca confiar en un total
 // calculado por el navegador".
 

@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { REGION_IMAGES, type RegionSlug } from "@/lib/regions";
-import { getRegionsOverview } from "@/lib/wp";
+import { getRegionsOverview } from "@/lib/content";
 
 export default async function DestinosPage({
   params,

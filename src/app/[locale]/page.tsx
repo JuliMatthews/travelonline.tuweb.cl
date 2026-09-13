@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PackageCard } from "@/components/PackageCard";
-import { getFeaturedPackages, getRegionsOverview } from "@/lib/wp";
+import { getFeaturedPackages, getRegionsOverview } from "@/lib/content";
 import { REGION_IMAGES, type RegionSlug } from "@/lib/regions";
 
 export default async function HomePage({

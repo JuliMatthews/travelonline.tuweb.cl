@@ -79,9 +79,9 @@ body {
 }
 
 /*
- * Estilo "revista" para el contenido largo de WordPress (Nosotros, y
- * cualquier página que use figuras flotantes + cita destacada dentro del
- * HTML del editor). Justifica el texto y deja que las imágenes floten junto
+ * Estilo "revista" para el contenido largo editado desde el panel (Nosotros,
+ * y cualquier página que use figuras flotantes + cita destacada dentro del
+ * HTML). Justifica el texto y deja que las imágenes floten junto
  * a los párrafos en vez de ir todas arriba en una fila.
  */
 .prose {

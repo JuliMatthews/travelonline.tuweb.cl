@@ -1,4 +1,4 @@
-import { getAllPackages, getPackageBySlug } from "@/lib/wp";
+import { getAllPackages, getPackageBySlug } from "@/lib/content";
 import { buildPackageSelectorOptions } from "@/lib/packageFamilies";
 import { QuoteForm } from "@/components/QuoteForm";
 

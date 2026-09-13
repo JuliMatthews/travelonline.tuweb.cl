@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getPackageBySlug } from "@/lib/wp";
+import { getPackageBySlug } from "@/lib/content";
 
 // Usado por el formulario de cotización (Client Component) para pedir los
 // datos de precio/addons/habitaciones frescos cuando el visitante cambia de
-// paquete, sin exponer directo el endpoint de WPGraphQL al navegador.
+// paquete, sin exponer la conexión a la base de datos directo al navegador.
 export async function GET(
   _request: Request,
   { params }: RouteContext<"/api/packages/[slug]">

@@ -5,22 +5,20 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   images: {
-    // Necesario porque WordPress headless corre en localhost:8090 (misma
-    // máquina) — Next.js 16 bloquea por defecto optimizar imágenes desde IPs
-    // privadas para prevenir SSRF. Sin riesgo real aquí: todo es local.
-    // En producción, WordPress vivirá en un dominio real y esto no aplicará.
+    // Necesario porque `admin` (el CMS propio, que ahora sirve las imágenes
+    // vía /uploads/[id]) corre en localhost:3001 (misma máquina) — Next.js
+    // 16 bloquea por defecto optimizar imágenes desde IPs privadas para
+    // prevenir SSRF. Sin riesgo real acá: todo es local. Al desplegar, el
+    // panel vivirá en un dominio real (app.travelonline.tuweb.cl) y esto no
+    // aplicará — ahí se agrega ese hostname a `remotePatterns` en vez de
+    // `dangerouslyAllowLocalIP`.
     dangerouslyAllowLocalIP: true,
     remotePatterns: [
       {
-        // WordPress headless local (ver cms/docker-compose.yml, puerto 8090)
         protocol: "http",
         hostname: "localhost",
-        port: "8090",
-        pathname: "/wp-content/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "**.travelonline.cl",
+        port: "3001",
+        pathname: "/uploads/**",
       },
     ],
   },

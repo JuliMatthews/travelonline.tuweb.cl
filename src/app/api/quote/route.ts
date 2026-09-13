@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
-import { getPackageBySlug } from "@/lib/wp";
+import { getPackageBySlug } from "@/lib/content";
 import { calculateQuote } from "@/lib/pricing";
 import { pool } from "@/lib/db";
 
@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
 
   const input = parsed.data;
 
-  // Autoritativo: se vuelve a pedir el paquete a WordPress y se recalcula
-  // TODO desde cero acá. Cualquier precio/total que el navegador haya
+  // Autoritativo: se vuelve a pedir el paquete a la base de datos y se
+  // recalcula TODO desde cero acá. Cualquier precio/total que el navegador haya
   // mandado (no debería mandar ninguno, pero por si acaso) se ignora por
   // completo — ver plan, "nunca confiar en un total calculado por el
   // navegador".

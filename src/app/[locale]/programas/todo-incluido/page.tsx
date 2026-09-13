@@ -1,5 +1,5 @@
 import { PackageCard } from "@/components/PackageCard";
-import { getAllPackages } from "@/lib/wp";
+import { getAllPackages } from "@/lib/content";
 
 export default async function TodoIncluidoPage() {
   const packages = await getAllPackages();
