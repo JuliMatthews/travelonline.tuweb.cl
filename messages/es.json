@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "destinations": "Destinos",
+    "allInclusive": "Todo Incluido",
+    "promotions": "Promociones",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "quote": "Cotizar viaje"
+  },
+  "regions": {
+    "europa": "Europa",
+    "asia": "Asia",
+    "america": "América",
+    "medio-oriente": "Medio Oriente",
+    "africa": "África",
+    "combinados": "Combinados"
+  },
+  "home": {
+    "heroTitle": "Tu próximo viaje empieza aquí",
+    "heroSubtitle": "Circuitos, paquetes todo incluido y combinados a los destinos más buscados, armados por un equipo real que te acompaña de principio a fin.",
+    "ctaQuote": "Cotiza tu viaje",
+    "ctaDestinations": "Ver destinos"
+  },
+  "whatsapp": {
+    "label": "Escríbenos por WhatsApp",
+    "defaultMessage": "Hola, me gustaría cotizar un viaje"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados."
+  }
+}
