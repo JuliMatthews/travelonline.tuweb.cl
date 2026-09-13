@@ -35,7 +35,7 @@ function Home({
     <>
       <section className="relative overflow-hidden bg-brand-dark px-4 py-20 text-center sm:py-28">
         <video
-          className="hero-video absolute inset-0 h-full w-full object-cover opacity-60"
+          className="hero-video absolute inset-0 h-full w-full object-cover"
           autoPlay
           muted
           loop
@@ -43,11 +43,11 @@ function Home({
           preload="auto"
           aria-hidden="true"
         >
-          <source src="/video/hero-clouds.mp4" type="video/mp4" />
+          <source src="/video/hero-pexels-beach.mp4" type="video/mp4" />
         </video>
         <div
           aria-hidden
-          className="absolute inset-0 bg-linear-to-b from-brand-dark/90 via-brand-dark/70 to-brand/80"
+          className="absolute inset-0 bg-linear-to-b from-brand-dark/55 via-brand-dark/25 to-brand/35"
         />
         <div
           aria-hidden

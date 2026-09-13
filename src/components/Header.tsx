@@ -41,7 +41,7 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link
           href="/"
-          className="font-display rounded-full bg-brand-dark px-4 py-2 text-sm font-bold text-white transition hover:bg-brand"
+          className="font-display rounded-full bg-[#8D7676] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#7a6363]"
         >
           Travel Online
         </Link>
