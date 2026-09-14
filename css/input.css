@@ -91,6 +91,133 @@ body {
 
 .prose h2 {
   clear: both;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--brand-dark);
+  margin: 2rem 0 0.75rem;
+}
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--brand-dark);
+  margin: 0 0 0.5rem;
+}
+
+.prose p {
+  margin: 0 0 1rem;
+  line-height: 1.7;
+}
+
+.prose ul {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.prose li {
+  margin: 0.25rem 0;
+}
+
+.prose li::marker {
+  color: var(--accent);
+}
+
+.prose a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--brand) 40%, transparent);
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: var(--brand-dark);
+}
+
+.prose strong {
+  color: var(--brand-dark);
+  font-weight: 700;
+}
+
+/*
+ * Bloques prácticos para páginas de contenido informativo (Contacto, etc.):
+ * columnas de contacto y horario, sin depender de utilidades de Tailwind
+ * (el contenido vive en la base de datos, no en un archivo que el build
+ * escanee, así que solo estas clases explícitas quedan disponibles).
+ */
+.info-columns {
+  clear: both;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+  text-align: left;
+}
+
+@media (max-width: 640px) {
+  .info-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card {
+  background: color-mix(in srgb, var(--brand-light) 55%, white);
+  border: 1px solid color-mix(in srgb, var(--brand) 15%, transparent);
+  border-radius: 0.9rem;
+  padding: 1.25rem 1.35rem;
+}
+
+.info-card h3 {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 0.6rem;
+}
+
+.info-card p,
+.info-card a {
+  font-size: 0.95rem;
+  margin: 0.15rem 0;
+}
+
+.hours-table {
+  clear: both;
+  text-align: left;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  width: 100%;
+  max-width: 26rem;
+}
+
+.hours-table td {
+  padding: 0.4rem 0.75rem 0.4rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  font-size: 0.95rem;
+}
+
+.hours-table td:first-child {
+  font-weight: 600;
+  color: var(--brand-dark);
+  white-space: nowrap;
+}
+
+ul.social-links {
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.social-links a {
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .prose figure {
