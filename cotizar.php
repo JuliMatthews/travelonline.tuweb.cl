@@ -74,15 +74,13 @@ require __DIR__ . '/inc/header.php';
       </div>
 
       <div class="border-t border-black/5 pt-6">
-        <button type="button" disabled title="Próximamente" class="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-brand bg-brand-light/60 px-3 py-2.5 text-sm font-semibold text-brand-dark disabled:cursor-not-allowed">
-          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.3 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.2-.1-2.3-.4-3.5z"/>
-            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.3 18.9 12 24 12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.3 29.5 3 24 3 15.9 3 8.9 7.7 6.3 14.7z"/>
-            <path fill="#4CAF50" d="M24 45c5.4 0 10.3-2.1 14-5.5l-6.5-5.5C29.4 35.8 26.9 36.7 24 36.7c-5.3 0-9.7-3.4-11.3-8.1l-6.6 5.1C8.9 40.4 15.9 45 24 45z"/>
-            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.9 2.7-2.6 5-4.8 6.5l6.5 5.5C40.8 36.9 44 31 44 24c0-1.2-.1-2.3-.4-3.5z"/>
-          </svg>
-          Cotiza con tu cuenta Google (más rápido)
-        </button>
+        <p class="mb-2 text-xs text-foreground/60">Inicia sesión con Google para autocompletar tu nombre y correo (opcional).</p>
+        <div id="google-signin-button" data-client-id="<?= htmlspecialchars(GOOGLE_CLIENT_ID) ?>"></div>
+        <div id="google-signin-done" class="hidden items-center gap-2 rounded-lg border-2 border-brand bg-brand-light/60 px-3 py-2.5 text-sm font-semibold text-brand-dark">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="google-signin-name"></span>
+          <button type="button" id="google-signin-reset" class="ml-auto text-xs font-normal underline">Usar otro correo</button>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -130,5 +128,7 @@ require __DIR__ . '/inc/header.php';
 <script id="cotizar-data" type="application/json"><?= json_encode(['options' => $options, 'initialPackage' => $initialPackage], JSON_UNESCAPED_UNICODE) ?></script>
 <script src="/js/pricing.js"></script>
 <script src="/js/cotizar.js"></script>
+<script src="https://accounts.google.com/gsi/client" defer></script>
+<script src="/js/google-signin.js" defer></script>
 
 <?php require __DIR__ . '/inc/footer.php'; ?>
