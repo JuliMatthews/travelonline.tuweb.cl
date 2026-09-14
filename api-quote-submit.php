@@ -24,6 +24,50 @@ function bad_request(string $msg): void {
     exit;
 }
 
+// Avisa al equipo por correo que llegó una cotización nueva — best-effort:
+// si el envío falla (o mail() no está disponible), la cotización ya quedó
+// guardada en la base igual, así que nunca debe romper la respuesta al
+// visitante. Reply-To apunta al pasajero para poder responderle directo.
+function notify_new_quote(array $package, array $quote, int $id, array $passenger, ?string $comments): void {
+    $recipients = array_filter(array_map('trim', explode(',', QUOTE_NOTIFICATION_EMAILS)));
+    if (count($recipients) === 0) return;
+
+    $totalLine = $quote['total'] !== null
+        ? '$' . number_format($quote['total'], 0, ',', '.') . ' CLP'
+        : 'Bajo consulta';
+    $depositLine = $quote['depositSuggested'] !== null
+        ? '$' . number_format($quote['depositSuggested'], 0, ',', '.') . ' CLP'
+        : '—';
+
+    $lines = [
+        'Llegó una nueva solicitud de cotización desde travelonline.tuweb.cl.',
+        '',
+        'Paquete: ' . $package['title'],
+        'Pasajeros: ' . $quote['passengers'] . ' (' . $passenger['adults'] . ' adultos, ' . $passenger['children'] . ' niños)',
+        'Habitación: ' . ($passenger['roomOptionLabel'] ?? '—'),
+        'Fechas preferidas: ' . ($passenger['dateFrom'] ? $passenger['dateFrom'] . ' al ' . $passenger['dateTo'] : 'sin especificar'),
+        'Total estimado: ' . $totalLine,
+        'Abono sugerido (30%): ' . $depositLine,
+        '',
+        'Nombre: ' . $passenger['name'],
+        'Correo: ' . $passenger['email'],
+        'Teléfono: ' . $passenger['phone'],
+    ];
+    if ($comments !== '') $lines[] = 'Comentarios: ' . $comments;
+    $lines[] = '';
+    $lines[] = 'Ver en el panel: ' . rtrim(ADMIN_PUBLIC_URL, '/') . '/cotizaciones/' . $id;
+
+    $subject = '=?UTF-8?B?' . base64_encode('Nueva cotización — ' . $package['title']) . '?=';
+    $messageBody = implode("\r\n", $lines);
+    $headers = "From: Travel Online <noreply@travelonline.tuweb.cl>\r\n"
+        . 'Reply-To: ' . $passenger['name'] . ' <' . $passenger['email'] . ">\r\n"
+        . "Content-Type: text/plain; charset=UTF-8\r\n";
+
+    foreach ($recipients as $to) {
+        @mail($to, $subject, $messageBody, $headers);
+    }
+}
+
 $raw = file_get_contents('php://input');
 $body = json_decode($raw, true);
 if (!is_array($body)) bad_request('Cuerpo inválido');
@@ -104,5 +148,16 @@ $stmt->bind_param(
 $stmt->execute();
 $id = $stmt->insert_id;
 $stmt->close();
+
+notify_new_quote($package, $quote, $id, [
+    'adults' => $adults,
+    'children' => $children,
+    'roomOptionLabel' => $roomOptionLabel,
+    'dateFrom' => $dateFrom,
+    'dateTo' => $dateTo,
+    'name' => $passengerName,
+    'email' => $passengerEmail,
+    'phone' => $passengerPhone,
+], $comments);
 
 echo json_encode(['ok' => true, 'id' => $id]);
