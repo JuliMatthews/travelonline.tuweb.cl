@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteRule ^destinos/([a-z0-9-]+)/?$ destino.php?region=$1 [L,QSA]
+  RewriteRule ^destinos/?$ destinos.php [L,QSA]
+  RewriteRule ^paquetes/([a-z0-9-]+)/?$ paquete.php?slug=$1 [L,QSA]
+  RewriteRule ^programas/todo-incluido/?$ todo-incluido.php [L,QSA]
+  RewriteRule ^promociones/?$ promociones.php [L,QSA]
+  RewriteRule ^blog/([a-z0-9-]+)/?$ blog-post.php?slug=$1 [L,QSA]
+  RewriteRule ^blog/?$ blog.php [L,QSA]
+  RewriteRule ^nosotros/?$ nosotros.php [L,QSA]
+  RewriteRule ^contacto/?$ contacto.php [L,QSA]
+  RewriteRule ^cotizar/gracias/?$ cotizar-gracias.php [L,QSA]
+  RewriteRule ^cotizar/?$ cotizar.php [L,QSA]
+</IfModule>
