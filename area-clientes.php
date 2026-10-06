@@ -98,6 +98,8 @@ $verificadoMsg = $_GET['msg'] ?? '';
           <li>Ver el estado de todas tus cotizaciones en un solo lugar.</li>
           <li>No tener que volver a escribir tus datos cada vez que cotizas.</li>
           <li>Acceso rápido con tu cuenta de Google, si prefieres.</li>
+          <li>Recibe ofertas solo para clientes.</li>
+          <li>Atención más rápida: nuestro equipo ya conoce tu historial de viajes con nosotros.</li>
         </ul>
       </div>
     </div>
