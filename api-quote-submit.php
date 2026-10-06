@@ -5,6 +5,7 @@
 require_once __DIR__ . '/inc/db.php';
 require_once __DIR__ . '/inc/content.php';
 require_once __DIR__ . '/inc/pricing.php';
+require_once __DIR__ . '/inc/client_auth.php';
 
 header('Content-Type: application/json; charset=utf-8');
 ini_set('display_errors', '0');
@@ -89,6 +90,21 @@ if ($passengerName === '') bad_request('Falta el nombre');
 if (!filter_var($passengerEmail, FILTER_VALIDATE_EMAIL)) bad_request('Correo inválido');
 if ($passengerPhone === '') bad_request('Falta el teléfono');
 
+// Vincula la cotización a un cliente si existe sesión activa, o si ya hay
+// una cuenta con ese correo (aunque no haya iniciado sesión ahora) — así el
+// área de clientes la muestra igual más adelante si se registra.
+$clientSession = current_client();
+if ($clientSession) {
+    $clientId = $clientSession['client']['id'];
+} else {
+    $stmt = db()->prepare('SELECT id FROM clients WHERE email = ?');
+    $stmt->bind_param('s', $passengerEmail);
+    $stmt->execute();
+    $clientRow = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    $clientId = $clientRow['id'] ?? null;
+}
+
 $comments = trim((string) ($body['comments'] ?? ''));
 $dateFrom = !empty($body['dateFrom']) ? (string) $body['dateFrom'] : null;
 $dateTo = !empty($body['dateTo']) ? (string) $body['dateTo'] : null;
@@ -128,17 +144,17 @@ $depositSuggestedClp = $quote['depositSuggested'];
 $mysqli = db();
 $stmt = $mysqli->prepare(
     'INSERT INTO quote_requests (
-        package_id, package_slug, package_title, adults, children,
+        package_id, package_slug, package_title, client_id, adults, children,
         room_option_id, room_option_label, selected_addons_json,
         per_person_base_clp, passengers_subtotal_clp, addons_total_clp, room_adjustment_clp,
         total_clp, deposit_suggested_clp,
         preferred_date_from, preferred_date_to,
         passenger_name, passenger_email, passenger_phone, comments
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 );
 $stmt->bind_param(
-    'sssiisssiiiiiissssss',
-    $package['id'], $package['slug'], $package['title'], $adults, $children,
+    'ssssiisssiiiiiissssss',
+    $package['id'], $package['slug'], $package['title'], $clientId, $adults, $children,
     $roomOptionId, $roomOptionLabel, $selectedAddonsJson,
     $perPersonBaseClp, $passengersSubtotalClp, $addonsTotalClp, $roomAdjustmentClp,
     $totalClp, $depositSuggestedClp,

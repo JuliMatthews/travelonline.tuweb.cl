@@ -40,9 +40,14 @@ $navItems = [
       <?php endforeach; ?>
     </nav>
 
-    <a href="/cotizar" class="rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1ebe57]">
-      Cotizar viaje
-    </a>
+    <div class="flex items-center gap-2">
+      <a href="/area-clientes" class="rounded-full bg-[#0066FF] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0052cc]">
+        Área Clientes
+      </a>
+      <a href="/cotizar" class="rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1ebe57]">
+        Cotizar viaje
+      </a>
+    </div>
   </div>
 </header>
 <main class="flex-1">
