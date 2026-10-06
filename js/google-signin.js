@@ -42,7 +42,8 @@
       return;
     }
     google.accounts.id.initialize({ client_id: clientId, callback: handleCredential });
-    google.accounts.id.renderButton(buttonEl, { theme: "outline", size: "large", text: "continue_with", width: 320 });
+    const width = Math.min(Math.max(buttonEl.offsetWidth || 320, 200), 400);
+    google.accounts.id.renderButton(buttonEl, { theme: "outline", size: "large", text: "continue_with", width });
   }
   init();
 

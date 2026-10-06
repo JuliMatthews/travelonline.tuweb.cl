@@ -2,6 +2,21 @@
 @import "tailwindcss";
 
 /*
+ * Red de seguridad para el botón "Continuar con Google" (Identity Services):
+ * el ancho que le pedimos en JS es solo una sugerencia — en pantallas
+ * angostas puede igual renderizar más ancho que el contenedor real y
+ * sobresalir de la tarjeta. Este límite en el propio iframe lo evita pase
+ * lo que pase con el cálculo de JS.
+ */
+#google-signin-button {
+  max-width: 100%;
+  overflow: hidden;
+}
+#google-signin-button iframe {
+  max-width: 100% !important;
+}
+
+/*
  * Dirección de marca "Meridiano" — aprobada 12-09-2026 (Fase 0 del plan).
  * Ciruela + marigold, sin serif: Bricolage Grotesque (display) + Public
  * Sans (texto).

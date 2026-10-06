@@ -75,7 +75,7 @@ require __DIR__ . '/inc/header.php';
 
       <div class="border-t border-black/5 pt-6">
         <p class="mb-2 text-xs text-foreground/60">Inicia sesión con Google para autocompletar tu nombre y correo (opcional).</p>
-        <div id="google-signin-button" data-client-id="<?= htmlspecialchars(GOOGLE_CLIENT_ID) ?>"></div>
+        <div id="google-signin-button" data-client-id="<?= htmlspecialchars(GOOGLE_CLIENT_ID) ?>" class="flex justify-center"></div>
         <div id="google-signin-done" class="hidden items-center gap-2 rounded-lg border-2 border-brand bg-brand-light/60 px-3 py-2.5 text-sm font-semibold text-brand-dark">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span id="google-signin-name"></span>

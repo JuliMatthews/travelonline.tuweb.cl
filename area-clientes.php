@@ -48,7 +48,7 @@ $verificadoMsg = $_GET['msg'] ?? '';
           <button type="button" data-tab="register" class="tab-btn rounded-full px-4 py-1.5 text-brand-dark">Crear cuenta</button>
         </div>
 
-        <div id="google-signin-button" data-client-id="<?= htmlspecialchars(GOOGLE_CLIENT_ID) ?>" class="mb-4"></div>
+        <div id="google-signin-button" data-client-id="<?= htmlspecialchars(GOOGLE_CLIENT_ID) ?>" class="mb-4 flex justify-center"></div>
         <p class="mb-4 text-center text-xs text-foreground/40">— o —</p>
 
         <form id="login-form" class="space-y-3">
