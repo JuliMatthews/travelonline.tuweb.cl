@@ -8,10 +8,10 @@ $pkg = get_package_by_slug($slug);
 
 if (!$pkg) {
     http_response_code(404);
-    $pageTitle = 'Paquete no encontrado — Travel Online';
+    $pageTitle = t('package_not_found.title') . ' — Travel Online';
     require __DIR__ . '/inc/head.php';
     require __DIR__ . '/inc/header.php';
-    echo '<div class="mx-auto max-w-4xl px-4 py-16 sm:px-6"><p class="text-foreground/60">Paquete no encontrado.</p></div>';
+    echo '<div class="mx-auto max-w-4xl px-4 py-16 sm:px-6"><p class="text-foreground/60">' . htmlspecialchars(t('package_not_found.title')) . '.</p></div>';
     require __DIR__ . '/inc/footer.php';
     exit;
 }
@@ -29,12 +29,12 @@ require __DIR__ . '/inc/header.php';
 <article class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
   <div class="flex flex-wrap items-center gap-2 text-sm text-foreground/60">
     <?php if ($pkg['region']): ?>
-      <a href="/destinos/<?= htmlspecialchars($pkg['region']['slug']) ?>" class="rounded-full bg-brand-light px-3 py-1 text-brand-dark">
+      <a href="<?= htmlspecialchars(locale_url(current_locale(), '/destinos/' . $pkg['region']['slug'])) ?>" class="rounded-full bg-brand-light px-3 py-1 text-brand-dark">
         <?= htmlspecialchars($pkg['region']['name']) ?>
       </a>
     <?php endif; ?>
     <?php if ($pkg['packageType']): ?>
-      <span class="rounded-full border border-border px-3 py-1"><?= htmlspecialchars(PACKAGE_TYPE_LABELS[$pkg['packageType']] ?? $pkg['packageType']) ?></span>
+      <span class="rounded-full border border-border px-3 py-1"><?= htmlspecialchars(package_type_label($pkg['packageType'])) ?></span>
     <?php endif; ?>
   </div>
 
@@ -56,13 +56,13 @@ require __DIR__ . '/inc/header.php';
   <div class="mt-8 flex flex-wrap items-center gap-6 rounded-xl bg-brand-light/50 p-6">
     <?php if ($pkg['durationDays'] || $pkg['durationNights']): ?>
       <div>
-        <p class="text-sm text-foreground/60">Duración</p>
-        <p class="font-semibold text-brand-dark"><?= $pkg['durationDays'] ?? '—' ?> días / <?= $pkg['durationNights'] ?? '—' ?> noches</p>
+        <p class="text-sm text-foreground/60"><?= htmlspecialchars(t('package.duration')) ?></p>
+        <p class="font-semibold text-brand-dark"><?= $pkg['durationDays'] ?? '—' ?> <?= htmlspecialchars(t('package.days')) ?> / <?= $pkg['durationNights'] ?? '—' ?> <?= htmlspecialchars(t('package.nights')) ?></p>
       </div>
     <?php endif; ?>
     <div class="ml-auto" id="price-block" data-price-clp="<?= (int)($pkg['priceFromClp'] ?? 0) ?>" data-has-price="<?= $hasPrice ? '1' : '0' ?>">
       <div class="flex items-center gap-2">
-        <p class="text-sm text-foreground/60">Precio</p>
+        <p class="text-sm text-foreground/60"><?= htmlspecialchars(t('package.from')) ?></p>
         <?php if ($hasPrice): ?>
           <div class="flex rounded-full border border-border text-[10px] font-semibold" id="price-currency-toggle">
             <?php foreach (['CLP', 'USD', 'EUR'] as $c): ?>
@@ -72,24 +72,24 @@ require __DIR__ . '/inc/header.php';
         <?php endif; ?>
       </div>
       <p class="mt-1 font-display text-2xl font-bold text-brand-dark" id="price-value">
-        <?= $hasPrice ? 'Desde ' . htmlspecialchars(format_price($pkg['priceFromClp'], 'CLP')) : 'Bajo consulta' ?>
+        <?= $hasPrice ? htmlspecialchars(t('package.from')) . ' ' . htmlspecialchars(format_price($pkg['priceFromClp'], 'CLP')) : htmlspecialchars(t('package.on_request')) ?>
       </p>
-      <a href="/cotizar?paquete=<?= htmlspecialchars($pkg['slug']) ?>" class="mt-3 inline-block rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">
-        Cotizar este paquete
+      <a href="<?= htmlspecialchars(locale_url(current_locale(), '/cotizar')) ?>?paquete=<?= htmlspecialchars($pkg['slug']) ?>" class="mt-3 inline-block rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">
+        <?= htmlspecialchars(t('package.quote_cta')) ?>
       </a>
       <?php if (count($pkg['addons']) > 0 || count($pkg['roomOptions']) > 0): ?>
-        <p class="mt-2 text-xs text-foreground/50">Incluye opciones de excursiones/habitación configurables al cotizar.</p>
+        <p class="mt-2 text-xs text-foreground/50"><?= htmlspecialchars(t('package.configurable_note')) ?></p>
       <?php endif; ?>
     </div>
   </div>
 
   <?php if (count($pkg['itinerary']) > 0): ?>
     <section class="mt-10">
-      <h2 class="font-display text-2xl font-bold text-brand-dark">Itinerario</h2>
+      <h2 class="font-display text-2xl font-bold text-brand-dark"><?= htmlspecialchars(t('package.itinerary')) ?></h2>
       <ol class="mt-4 space-y-4">
         <?php foreach ($pkg['itinerary'] as $day): ?>
           <li class="rounded-lg border border-border p-4">
-            <p class="font-semibold text-brand-dark">Día <?= htmlspecialchars((string)($day['dayNumber'] ?? '')) ?> — <?= htmlspecialchars($day['title']) ?></p>
+            <p class="font-semibold text-brand-dark"><?= htmlspecialchars(t('package.day')) ?> <?= htmlspecialchars((string)($day['dayNumber'] ?? '')) ?> — <?= htmlspecialchars($day['title']) ?></p>
             <div class="prose prose-neutral prose-sm mt-2 max-w-none"><?= $day['description'] ?></div>
           </li>
         <?php endforeach; ?>
@@ -101,7 +101,7 @@ require __DIR__ . '/inc/header.php';
     <section class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
       <?php if (count($included) > 0): ?>
         <div>
-          <h3 class="font-semibold text-brand-dark">Incluye</h3>
+          <h3 class="font-semibold text-brand-dark"><?= htmlspecialchars(t('package.included')) ?></h3>
           <ul class="mt-2 list-inside list-disc text-foreground/80">
             <?php foreach ($included as $item): ?><li><?= htmlspecialchars($item) ?></li><?php endforeach; ?>
           </ul>
@@ -109,7 +109,7 @@ require __DIR__ . '/inc/header.php';
       <?php endif; ?>
       <?php if (count($notIncluded) > 0): ?>
         <div>
-          <h3 class="font-semibold text-brand-dark">No incluye</h3>
+          <h3 class="font-semibold text-brand-dark"><?= htmlspecialchars(t('package.not_included')) ?></h3>
           <ul class="mt-2 list-inside list-disc text-foreground/80">
             <?php foreach ($notIncluded as $item): ?><li><?= htmlspecialchars($item) ?></li><?php endforeach; ?>
           </ul>

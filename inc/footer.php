@@ -1,23 +1,24 @@
+<?php require_once __DIR__ . '/i18n.php'; ?>
 </main>
 <footer class="mt-auto border-t border-border bg-brand-light/40">
   <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-foreground/70 sm:px-6">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <p>Travel Online — Chile</p>
       <div class="flex gap-4">
-        <a href="/legal/condiciones-de-reserva">Condiciones de reserva</a>
-        <a href="/legal/politica-de-cookies">Cookies</a>
-        <a href="/legal/politicas-de-privacidad">Privacidad</a>
+        <a href="<?= htmlspecialchars(locale_url(current_locale(), '/legal/condiciones-de-reserva')) ?>"><?= htmlspecialchars(t('footer.conditions')) ?></a>
+        <a href="<?= htmlspecialchars(locale_url(current_locale(), '/legal/politica-de-cookies')) ?>"><?= htmlspecialchars(t('footer.cookies')) ?></a>
+        <a href="<?= htmlspecialchars(locale_url(current_locale(), '/legal/politicas-de-privacidad')) ?>"><?= htmlspecialchars(t('footer.privacy')) ?></a>
       </div>
     </div>
-    <p class="mt-4">© <?= date('Y') ?> Travel Online. Todos los derechos reservados.</p>
+    <p class="mt-4">© <?= date('Y') ?> Travel Online. <?= htmlspecialchars(t('footer.rights')) ?></p>
   </div>
 </footer>
 
 <a
-  href="https://wa.me/56981991292?text=<?= rawurlencode('Hola, me gustaría cotizar un viaje') ?>"
+  href="https://wa.me/56981991292?text=<?= rawurlencode(t('footer.whatsapp_message')) ?>"
   target="_blank"
   rel="noopener noreferrer"
-  aria-label="Escríbenos por WhatsApp"
+  aria-label="<?= htmlspecialchars(t('footer.whatsapp_aria')) ?>"
   class="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105"
 >
   <svg viewBox="0 0 32 32" aria-hidden="true" class="h-7 w-7 fill-current">

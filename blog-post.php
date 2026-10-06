@@ -1,21 +1,15 @@
 <?php
 require_once __DIR__ . '/inc/content.php';
 
-function format_blog_date(string $iso): string {
-    $months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-    $ts = strtotime($iso);
-    return date('j', $ts) . ' de ' . $months[(int)date('n', $ts) - 1] . ' de ' . date('Y', $ts);
-}
-
 $slug = $_GET['slug'] ?? '';
 $post = get_blog_post_by_slug($slug);
 
 if (!$post) {
     http_response_code(404);
-    $pageTitle = 'Artículo no encontrado — Travel Online';
+    $pageTitle = t('blog_post_not_found.title') . ' — Travel Online';
     require __DIR__ . '/inc/head.php';
     require __DIR__ . '/inc/header.php';
-    echo '<div class="mx-auto max-w-3xl px-4 py-16 sm:px-6"><p class="text-foreground/60">Artículo no encontrado.</p></div>';
+    echo '<div class="mx-auto max-w-3xl px-4 py-16 sm:px-6"><p class="text-foreground/60">' . htmlspecialchars(t('blog_post_not_found.title')) . '.</p></div>';
     require __DIR__ . '/inc/footer.php';
     exit;
 }

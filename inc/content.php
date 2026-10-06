@@ -4,9 +4,51 @@
 // consultando MySQL directo (mysqli, sin ORM). Sin cacheo — cada request
 // consulta fresco, igual que la versión Node.
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/i18n.php';
+require_once __DIR__ . '/regions.php';
 
 function build_image_url(string $id, string $extension): string {
     return ADMIN_PUBLIC_URL . '/uploads/' . $id . '.' . $extension;
+}
+
+// COALESCE que trata '' como NULL también — un campo traducido vacío (aún
+// sin traducir a mano, la API no tenía nada que mandar) debe caer al
+// español igual que si la fila ni existiera.
+function locale_coalesce($translated, $original) {
+    return ($translated !== null && $translated !== '') ? $translated : $original;
+}
+
+// 'es' nunca tiene tabla de traducción propia (es la canónica) — este helper
+// evita repetir el if en cada función de abajo.
+function is_translatable_locale(): bool {
+    return current_locale() !== 'es';
+}
+
+// Arma el JOIN + las expresiones SELECT para traer un campo en el idioma
+// activo con respaldo automático a español, sin tocar nada cuando el idioma
+// es español (que no tiene fila de traducción propia). $fields es
+// [columna_base => alias_en_resultado]. $locale ya viene validado contra
+// una whitelist fija (current_locale()), así que es seguro interpolarlo.
+function translated_select(string $table, string $fkColumn, string $baseAlias, array $fields): array {
+    $locale = current_locale();
+    if ($locale === 'es') {
+        $join = '';
+        $select = array_map(fn($col) => "$baseAlias.$col", array_combine($fields, $fields));
+    } else {
+        $joinAlias = 'i18n_' . $table;
+        $join = "LEFT JOIN $table $joinAlias ON $joinAlias.$fkColumn = $baseAlias.id AND $joinAlias.locale = '$locale'";
+        $select = [];
+        foreach ($fields as $col) {
+            $select[$col] = "COALESCE(NULLIF($joinAlias.$col,''), $baseAlias.$col)";
+        }
+    }
+    return ['join' => $join, 'select' => $select];
+}
+
+function select_sql(array $select): string {
+    $parts = [];
+    foreach ($select as $alias => $expr) $parts[] = "$expr AS $alias";
+    return implode(', ', $parts);
 }
 
 // Portada de un paquete (primera imagen por sort_order) — es lo único que
@@ -44,9 +86,11 @@ function get_region_with_packages(string $regionSlug): ?array {
     if (!$region) return null;
 
     $cover = package_cover_subquery();
+    $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle']);
     $stmt = $mysqli->prepare(
-        "SELECT p.id, p.slug, p.title, p.subtitle, p.package_type, p.show_in_promociones, $cover AS cover
-         FROM packages p WHERE p.region_id = ? AND p.status = 'published' ORDER BY p.title"
+        "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
+                p.package_type, p.show_in_promociones, $cover AS cover
+         FROM packages p {$t['join']} WHERE p.region_id = ? AND p.status = 'published' ORDER BY p.title"
     );
     $stmt->bind_param('s', $region['id']);
     $stmt->execute();
@@ -55,7 +99,7 @@ function get_region_with_packages(string $regionSlug): ?array {
     while ($row = $res->fetch_assoc()) $packages[] = row_to_summary($row);
     $stmt->close();
 
-    return ['name' => $region['name'], 'description' => null, 'packages' => $packages];
+    return ['name' => region_name($regionSlug), 'description' => null, 'packages' => $packages];
 }
 
 function get_regions_overview(): array {
@@ -77,9 +121,11 @@ function get_regions_overview(): array {
 function get_featured_packages(): array {
     $mysqli = db();
     $cover = package_cover_subquery();
+    $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle']);
     $res = $mysqli->query(
-        "SELECT slug, title, subtitle, package_type, show_in_promociones, $cover AS cover
-         FROM packages p
+        "SELECT p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
+                p.package_type, p.show_in_promociones, $cover AS cover
+         FROM packages p {$t['join']}
          WHERE is_featured = 1 AND status = 'published'
          ORDER BY featured_sort_order"
     );
@@ -91,9 +137,11 @@ function get_featured_packages(): array {
 function get_all_packages(): array {
     $mysqli = db();
     $cover = package_cover_subquery();
+    $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle']);
     $res = $mysqli->query(
-        "SELECT id, slug, title, subtitle, package_type, show_in_promociones, $cover AS cover
-         FROM packages p WHERE status = 'published' ORDER BY title"
+        "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
+                p.package_type, p.show_in_promociones, $cover AS cover
+         FROM packages p {$t['join']} WHERE status = 'published' ORDER BY p.title"
     );
     $rows = [];
     while ($r = $res->fetch_assoc()) $rows[] = row_to_summary($r);
@@ -103,12 +151,14 @@ function get_all_packages(): array {
 function get_package_by_slug(string $slug): ?array {
     $mysqli = db();
     $cover = package_cover_subquery();
+    $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle', 'content', 'included', 'not_included']);
     $stmt = $mysqli->prepare(
-        "SELECT p.id, p.slug, p.title, p.subtitle, p.package_type, p.show_in_promociones,
-                p.content, p.duration_days, p.duration_nights, p.price_display_mode,
-                p.price_from_clp, p.price_unit, p.included, p.not_included,
-                $cover AS cover, r.name AS region_name, r.slug AS region_slug
-         FROM packages p
+        "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
+                p.package_type, p.show_in_promociones,
+                {$t['select']['content']} AS content, p.duration_days, p.duration_nights, p.price_display_mode,
+                p.price_from_clp, p.price_unit, {$t['select']['included']} AS included, {$t['select']['not_included']} AS not_included,
+                $cover AS cover, r.slug AS region_slug
+         FROM packages p {$t['join']}
          LEFT JOIN regions r ON r.id = p.region_id
          WHERE p.slug = ? AND p.status = 'published'"
     );
@@ -132,7 +182,8 @@ function get_package_by_slug(string $slug): ?array {
     $stmt->close();
 
     $addons = [];
-    $stmt = $mysqli->prepare('SELECT id, name, price_clp FROM package_addons WHERE package_id = ? ORDER BY sort_order');
+    $ta = translated_select('package_addon_translations', 'addon_id', 'pa', ['name']);
+    $stmt = $mysqli->prepare("SELECT pa.id, {$ta['select']['name']} AS name, pa.price_clp FROM package_addons pa {$ta['join']} WHERE pa.package_id = ? ORDER BY pa.sort_order");
     $stmt->bind_param('s', $id);
     $stmt->execute();
     $res = $stmt->get_result();
@@ -140,7 +191,8 @@ function get_package_by_slug(string $slug): ?array {
     $stmt->close();
 
     $roomOptions = [];
-    $stmt = $mysqli->prepare('SELECT id, label, price_adjustment_clp FROM package_room_options WHERE package_id = ? ORDER BY sort_order');
+    $tr = translated_select('package_room_option_translations', 'room_option_id', 'pr', ['label']);
+    $stmt = $mysqli->prepare("SELECT pr.id, {$tr['select']['label']} AS label, pr.price_adjustment_clp FROM package_room_options pr {$tr['join']} WHERE pr.package_id = ? ORDER BY pr.sort_order");
     $stmt->bind_param('s', $id);
     $stmt->execute();
     $res = $stmt->get_result();
@@ -148,7 +200,8 @@ function get_package_by_slug(string $slug): ?array {
     $stmt->close();
 
     $itinerary = [];
-    $stmt = $mysqli->prepare('SELECT day_number, title, description FROM package_itinerary_days WHERE package_id = ? ORDER BY sort_order');
+    $td = translated_select('package_itinerary_day_translations', 'day_id', 'd', ['title', 'description']);
+    $stmt = $mysqli->prepare("SELECT d.day_number, {$td['select']['title']} AS title, {$td['select']['description']} AS description FROM package_itinerary_days d {$td['join']} WHERE d.package_id = ? ORDER BY d.sort_order");
     $stmt->bind_param('s', $id);
     $stmt->execute();
     $res = $stmt->get_result();
@@ -169,7 +222,7 @@ function get_package_by_slug(string $slug): ?array {
         'priceUnit' => $row['price_unit'],
         'included' => $row['included'],
         'notIncluded' => $row['not_included'],
-        'region' => $row['region_slug'] ? ['name' => $row['region_name'], 'slug' => $row['region_slug']] : null,
+        'region' => $row['region_slug'] ? ['name' => region_name($row['region_slug']), 'slug' => $row['region_slug']] : null,
         'addons' => $addons,
         'roomOptions' => $roomOptions,
         'itinerary' => $itinerary,
@@ -192,9 +245,11 @@ function row_to_blog_summary(array $row): array {
 
 function get_all_blog_posts(): array {
     $mysqli = db();
+    $t = translated_select('blog_post_translations', 'post_id', 'b', ['title', 'excerpt']);
     $res = $mysqli->query(
-        "SELECT b.slug, b.title, b.excerpt, b.published_at, i.id AS image_id, i.file_extension AS image_ext
-         FROM blog_posts b LEFT JOIN images i ON i.id = b.featured_image_id
+        "SELECT b.slug, {$t['select']['title']} AS title, {$t['select']['excerpt']} AS excerpt,
+                b.published_at, i.id AS image_id, i.file_extension AS image_ext
+         FROM blog_posts b {$t['join']} LEFT JOIN images i ON i.id = b.featured_image_id
          WHERE b.status = 'published' ORDER BY b.published_at DESC"
     );
     $rows = [];
@@ -204,9 +259,11 @@ function get_all_blog_posts(): array {
 
 function get_blog_post_by_slug(string $slug): ?array {
     $mysqli = db();
+    $t = translated_select('blog_post_translations', 'post_id', 'b', ['title', 'excerpt', 'content']);
     $stmt = $mysqli->prepare(
-        "SELECT b.slug, b.title, b.excerpt, b.content, b.published_at, i.id AS image_id, i.file_extension AS image_ext
-         FROM blog_posts b LEFT JOIN images i ON i.id = b.featured_image_id
+        "SELECT b.slug, {$t['select']['title']} AS title, {$t['select']['excerpt']} AS excerpt,
+                {$t['select']['content']} AS content, b.published_at, i.id AS image_id, i.file_extension AS image_ext
+         FROM blog_posts b {$t['join']} LEFT JOIN images i ON i.id = b.featured_image_id
          WHERE b.slug = ? AND b.status = 'published'"
     );
     $stmt->bind_param('s', $slug);
@@ -219,7 +276,8 @@ function get_blog_post_by_slug(string $slug): ?array {
 
 function get_page_by_slug(string $slug): ?array {
     $mysqli = db();
-    $stmt = $mysqli->prepare('SELECT id, title, content FROM static_pages WHERE slug = ?');
+    $t = translated_select('static_page_translations', 'page_id', 'sp', ['title', 'content']);
+    $stmt = $mysqli->prepare("SELECT sp.id, {$t['select']['title']} AS title, {$t['select']['content']} AS content FROM static_pages sp {$t['join']} WHERE sp.slug = ?");
     $stmt->bind_param('s', $slug);
     $stmt->execute();
     $row = $stmt->get_result()->fetch_assoc();

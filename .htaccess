@@ -1,6 +1,12 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Prefijo de idioma opcional (/en/..., /pt/...) — se quita de la URL y
+  # queda disponible en PHP como $_SERVER['REDIRECT_TO_LANG'] (ver
+  # inc/i18n.php, current_locale()). Sin prefijo = español, sin cambios.
+  RewriteRule ^(en|pt)/?$ index.php?lang=$1 [L,QSA]
+  RewriteRule ^(en|pt)/(.*)$ $2 [E=TO_LANG:$1,QSA]
+
   RewriteRule ^destinos/([a-z0-9-]+)/?$ destino.php?region=$1 [L,QSA]
   RewriteRule ^destinos/?$ destinos.php [L,QSA]
   RewriteRule ^paquetes/([a-z0-9-]+)/?$ paquete.php?slug=$1 [L,QSA]

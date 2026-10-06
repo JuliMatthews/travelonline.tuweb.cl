@@ -3,28 +3,22 @@ require_once __DIR__ . '/inc/content.php';
 
 $posts = get_all_blog_posts();
 
-function format_blog_date(string $iso): string {
-    $months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-    $ts = strtotime($iso);
-    return date('j', $ts) . ' de ' . $months[(int)date('n', $ts) - 1] . ' de ' . date('Y', $ts);
-}
-
-$pageTitle = 'Blog — Travel Online';
+$pageTitle = t('blog.title') . ' — Travel Online';
 $activeNav = 'blog';
 require __DIR__ . '/inc/head.php';
 require __DIR__ . '/inc/header.php';
 ?>
 
 <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-  <h1 class="font-display text-3xl font-bold text-brand-dark">Blog</h1>
-  <p class="mt-3 max-w-2xl text-foreground/70">Consejos, guías rápidas e ideas para tu próximo viaje.</p>
+  <h1 class="font-display text-3xl font-bold text-brand-dark"><?= htmlspecialchars(t('blog.title')) ?></h1>
+  <p class="mt-3 max-w-2xl text-foreground/70"><?= htmlspecialchars(t('blog.subtitle')) ?></p>
 
   <?php if (count($posts) === 0): ?>
-    <p class="mt-10 text-foreground/60">Todavía no hay artículos publicados.</p>
+    <p class="mt-10 text-foreground/60"><?= htmlspecialchars(t('blog.empty')) ?></p>
   <?php else: ?>
     <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <?php foreach ($posts as $post): ?>
-        <a href="/blog/<?= htmlspecialchars($post['slug']) ?>" class="shine-card group block overflow-hidden rounded-xl border border-border bg-background">
+        <a href="<?= htmlspecialchars(locale_url(current_locale(), '/blog/' . $post['slug'])) ?>" class="shine-card group block overflow-hidden rounded-xl border border-border bg-background">
           <div class="relative aspect-[4/3] overflow-hidden bg-linear-to-br from-brand-dark to-brand">
             <?php if ($post['featuredImage']): ?>
               <img src="<?= htmlspecialchars($post['featuredImage']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105">
