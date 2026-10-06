@@ -12,32 +12,30 @@ $verificado = $_GET['verificado'] ?? null;
 $verificadoMsg = $_GET['msg'] ?? '';
 ?>
 
-<div class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+<?php if ($session): ?>
 
-  <?php if ($verificado === 'ok'): ?>
-    <div class="mb-6 rounded-lg border border-green-600/20 bg-green-50 px-4 py-3 text-sm text-green-800">
-      <?= htmlspecialchars($verificadoMsg ?: 'Correo confirmado.') ?>
-    </div>
-  <?php elseif ($verificado === 'error'): ?>
-    <div class="mb-6 rounded-lg border border-red-600/20 bg-red-50 px-4 py-3 text-sm text-red-800">
-      <?= htmlspecialchars($verificadoMsg ?: 'No pudimos confirmar tu correo.') ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($session): ?>
+  <?php $clientActiveNav = 'cotizaciones'; require __DIR__ . '/inc/client_sidebar.php'; ?>
     <h1 class="font-display text-3xl font-bold text-brand-dark">Hola, <?= htmlspecialchars($session['client']['name']) ?></h1>
     <p class="mt-2 text-foreground/70">Este es el historial de tus cotizaciones con nosotros.</p>
-
-    <div class="mt-6 flex items-center justify-between">
-      <span class="text-sm text-foreground/50"><?= htmlspecialchars($session['client']['email']) ?></span>
-      <button type="button" id="logout-btn" class="text-sm text-brand underline">Cerrar sesión</button>
-    </div>
 
     <div id="quotes-list" class="mt-6">
       <p class="text-sm text-foreground/50">Cargando...</p>
     </div>
+  <?php require __DIR__ . '/inc/client_sidebar_end.php'; ?>
 
-  <?php else: ?>
+<?php else: ?>
+
+  <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <?php if ($verificado === 'ok'): ?>
+      <div class="mb-6 rounded-lg border border-green-600/20 bg-green-50 px-4 py-3 text-sm text-green-800">
+        <?= htmlspecialchars($verificadoMsg ?: 'Correo confirmado.') ?>
+      </div>
+    <?php elseif ($verificado === 'error'): ?>
+      <div class="mb-6 rounded-lg border border-red-600/20 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <?= htmlspecialchars($verificadoMsg ?: 'No pudimos confirmar tu correo.') ?>
+      </div>
+    <?php endif; ?>
+
     <h1 class="font-display text-3xl font-bold text-brand-dark">Área Clientes</h1>
     <p class="mt-2 max-w-xl text-foreground/70">Entra para ver el historial de tus cotizaciones, o crea una cuenta si es tu primera vez.</p>
 
@@ -103,9 +101,9 @@ $verificadoMsg = $_GET['msg'] ?? '';
         </ul>
       </div>
     </div>
-  <?php endif; ?>
+  </div>
 
-</div>
+<?php endif; ?>
 
 <script id="area-clientes-data" type="application/json"><?= json_encode(['loggedIn' => (bool) $session], JSON_UNESCAPED_UNICODE) ?></script>
 <script src="https://accounts.google.com/gsi/client" defer></script>

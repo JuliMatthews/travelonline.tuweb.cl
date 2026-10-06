@@ -104,15 +104,6 @@
     initGoogle();
   }
 
-  // --- Logout ---
-  const logoutBtn = document.getElementById('logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-      await fetch('/api-client-logout.php', { method: 'POST' });
-      window.location.href = '/area-clientes';
-    });
-  }
-
   // --- Lista de cotizaciones (si está logueado) ---
   const quotesList = document.getElementById('quotes-list');
   if (loggedIn && quotesList) {

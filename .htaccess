@@ -12,5 +12,6 @@
   RewriteRule ^contacto/?$ contacto.php [L,QSA]
   RewriteRule ^cotizar/gracias/?$ cotizar-gracias.php [L,QSA]
   RewriteRule ^cotizar/?$ cotizar.php [L,QSA]
+  RewriteRule ^area-clientes/perfil/?$ area-clientes-perfil.php [L,QSA]
   RewriteRule ^area-clientes/?$ area-clientes.php [L,QSA]
 </IfModule>
