@@ -23,7 +23,7 @@ require __DIR__ . '/inc/header.php';
     <div class="space-y-6">
       <div>
         <label class="block text-sm font-semibold text-brand-dark">Paquete</label>
-        <select id="top-select" required class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+        <select id="top-select" required class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           <option value="" disabled selected>Selecciona un paquete</option>
         </select>
         <div id="family-members" class="mt-3 hidden">
@@ -40,11 +40,11 @@ require __DIR__ . '/inc/header.php';
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-semibold text-brand-dark">Adultos</label>
-          <input type="number" id="adults" min="1" value="2" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input type="number" id="adults" min="1" value="2" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
         <div>
           <label class="block text-sm font-semibold text-brand-dark">Niños</label>
-          <input type="number" id="children" min="0" value="0" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input type="number" id="children" min="0" value="0" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
       </div>
 
@@ -53,11 +53,11 @@ require __DIR__ . '/inc/header.php';
         <div class="mt-1 grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs text-foreground/60">Desde</label>
-            <input type="date" id="date-from" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input type="date" id="date-from" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
           <div>
             <label class="block text-xs text-foreground/60">Hasta</label>
-            <input type="date" id="date-to" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input type="date" id="date-to" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
         </div>
         <p class="mt-1 text-xs text-foreground/50">Aproximada — es solo referencial para armar la cotización.</p>
@@ -73,7 +73,7 @@ require __DIR__ . '/inc/header.php';
         <div id="addons-list" class="mt-2 space-y-2"></div>
       </div>
 
-      <div class="border-t border-black/5 pt-6">
+      <div class="border-t border-border pt-6">
         <p class="mb-2 text-xs text-foreground/60">Inicia sesión con Google para autocompletar tu nombre y correo (opcional).</p>
         <div id="google-signin-button" data-client-id="<?= htmlspecialchars(GOOGLE_CLIENT_ID) ?>" class="flex justify-center"></div>
         <div id="google-signin-done" class="hidden items-center gap-2 rounded-lg border-2 border-brand bg-brand-light/60 px-3 py-2.5 text-sm font-semibold text-brand-dark">
@@ -86,33 +86,33 @@ require __DIR__ . '/inc/header.php';
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label class="block text-sm font-semibold text-brand-dark">Nombre</label>
-          <input required type="text" id="passenger-name" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input required type="text" id="passenger-name" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
         <div>
           <label class="block text-sm font-semibold text-brand-dark">Correo</label>
-          <input required type="email" id="passenger-email" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input required type="email" id="passenger-email" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
         <div>
           <label class="block text-sm font-semibold text-brand-dark">Teléfono</label>
-          <input required type="tel" id="passenger-phone" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input required type="tel" id="passenger-phone" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
         <div>
           <label class="block text-sm font-semibold text-brand-dark">Comentarios (opcional)</label>
-          <input type="text" id="comments" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input type="text" id="comments" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
       </div>
 
-      <p id="submit-error" class="hidden text-sm text-red-600"></p>
+      <p id="submit-error" class="hidden text-sm text-red-600 dark:text-red-400"></p>
 
       <button type="submit" id="submit-btn" class="rounded-full bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50">
         Enviar cotización
       </button>
     </div>
 
-    <aside class="h-fit rounded-2xl border border-black/5 bg-brand-light/40 p-6">
+    <aside class="h-fit rounded-2xl border border-border bg-brand-light/40 p-6">
       <div class="mb-4 flex items-center justify-between">
         <h2 class="font-display font-bold text-brand-dark">Resumen</h2>
-        <div class="flex rounded-full border border-black/10 text-xs font-semibold" id="currency-toggle">
+        <div class="flex rounded-full border border-border text-xs font-semibold" id="currency-toggle">
           <?php foreach (['CLP', 'USD', 'EUR'] as $c): ?>
             <button type="button" data-currency="<?= $c ?>" class="currency-btn px-3 py-1 first:rounded-l-full last:rounded-r-full <?= $c === 'CLP' ? 'bg-brand text-white' : 'text-brand-dark' ?>"><?= $c ?></button>
           <?php endforeach; ?>

@@ -10,7 +10,7 @@ function render_package_card(array $pkg): void {
     $cover = $pkg['heroGallery'][0] ?? null;
     $typeLabel = PACKAGE_TYPE_LABELS[$pkg['packageType']] ?? $pkg['packageType'];
     ?>
-    <a href="/paquetes/<?= htmlspecialchars($pkg['slug']) ?>" class="shine-card group block overflow-hidden rounded-xl border border-black/5 bg-background">
+    <a href="/paquetes/<?= htmlspecialchars($pkg['slug']) ?>" class="shine-card group block overflow-hidden rounded-xl border border-border bg-background">
       <div class="relative aspect-[4/3] overflow-hidden bg-linear-to-br from-brand-dark to-brand">
         <?php if ($cover): ?>
           <img src="<?= htmlspecialchars($cover) ?>" alt="<?= htmlspecialchars($pkg['title']) ?>" loading="lazy"

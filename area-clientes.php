@@ -27,11 +27,11 @@ $verificadoMsg = $_GET['msg'] ?? '';
 
   <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
     <?php if ($verificado === 'ok'): ?>
-      <div class="mb-6 rounded-lg border border-green-600/20 bg-green-50 px-4 py-3 text-sm text-green-800">
+      <div class="mb-6 rounded-lg border border-green-600/20 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-400/20 dark:bg-green-400/10 dark:text-green-400">
         <?= htmlspecialchars($verificadoMsg ?: 'Correo confirmado.') ?>
       </div>
     <?php elseif ($verificado === 'error'): ?>
-      <div class="mb-6 rounded-lg border border-red-600/20 bg-red-50 px-4 py-3 text-sm text-red-800">
+      <div class="mb-6 rounded-lg border border-red-600/20 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-400">
         <?= htmlspecialchars($verificadoMsg ?: 'No pudimos confirmar tu correo.') ?>
       </div>
     <?php endif; ?>
@@ -40,7 +40,7 @@ $verificadoMsg = $_GET['msg'] ?? '';
     <p class="mt-2 max-w-xl text-foreground/70">Entra para ver el historial de tus cotizaciones, o crea una cuenta si es tu primera vez.</p>
 
     <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
-      <div class="rounded-2xl border border-black/5 bg-brand-light/30 p-6">
+      <div class="rounded-2xl border border-border bg-brand-light/30 p-6">
         <div class="mb-4 flex gap-2 text-sm font-semibold">
           <button type="button" data-tab="login" class="tab-btn rounded-full bg-brand px-4 py-1.5 text-white">Iniciar sesión</button>
           <button type="button" data-tab="register" class="tab-btn rounded-full px-4 py-1.5 text-brand-dark">Crear cuenta</button>
@@ -52,13 +52,13 @@ $verificadoMsg = $_GET['msg'] ?? '';
         <form id="login-form" class="space-y-3">
           <div>
             <label class="block text-sm font-medium text-brand-dark">Correo</label>
-            <input required type="email" name="email" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input required type="email" name="email" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
           <div>
             <label class="block text-sm font-medium text-brand-dark">Contraseña</label>
-            <input required type="password" name="password" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input required type="password" name="password" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
-          <p id="login-error" class="hidden text-sm text-red-600"></p>
+          <p id="login-error" class="hidden text-sm text-red-600 dark:text-red-400"></p>
           <button type="submit" class="w-full rounded-full bg-brand px-4 py-2.5 font-semibold text-white hover:bg-brand-dark">
             Iniciar sesión
           </button>
@@ -67,30 +67,30 @@ $verificadoMsg = $_GET['msg'] ?? '';
         <form id="register-form" class="hidden space-y-3">
           <div>
             <label class="block text-sm font-medium text-brand-dark">Nombre</label>
-            <input required type="text" name="name" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input required type="text" name="name" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
           <div>
             <label class="block text-sm font-medium text-brand-dark">Correo</label>
-            <input required type="email" name="email" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input required type="email" name="email" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
           <div>
             <label class="block text-sm font-medium text-brand-dark">Teléfono (opcional)</label>
-            <input type="tel" name="phone" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input type="tel" name="phone" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
           </div>
           <div>
             <label class="block text-sm font-medium text-brand-dark">Contraseña</label>
-            <input required type="password" name="password" minlength="8" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+            <input required type="password" name="password" minlength="8" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
             <p class="mt-1 text-xs text-foreground/50">Mínimo 8 caracteres.</p>
           </div>
-          <p id="register-error" class="hidden text-sm text-red-600"></p>
-          <p id="register-success" class="hidden text-sm text-green-700"></p>
+          <p id="register-error" class="hidden text-sm text-red-600 dark:text-red-400"></p>
+          <p id="register-success" class="hidden text-sm text-green-700 dark:text-green-400"></p>
           <button type="submit" class="w-full rounded-full bg-brand px-4 py-2.5 font-semibold text-white hover:bg-brand-dark">
             Crear cuenta
           </button>
         </form>
       </div>
 
-      <div class="flex flex-col justify-center rounded-2xl border border-black/5 p-6">
+      <div class="flex flex-col justify-center rounded-2xl border border-border p-6">
         <h2 class="font-display font-bold text-brand-dark">¿Para qué sirve esto?</h2>
         <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-foreground/70">
           <li>Ver el estado de todas tus cotizaciones en un solo lugar.</li>

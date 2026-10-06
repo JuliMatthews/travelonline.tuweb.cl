@@ -34,7 +34,7 @@ require __DIR__ . '/inc/header.php';
       </a>
     <?php endif; ?>
     <?php if ($pkg['packageType']): ?>
-      <span class="rounded-full border border-black/10 px-3 py-1"><?= htmlspecialchars(PACKAGE_TYPE_LABELS[$pkg['packageType']] ?? $pkg['packageType']) ?></span>
+      <span class="rounded-full border border-border px-3 py-1"><?= htmlspecialchars(PACKAGE_TYPE_LABELS[$pkg['packageType']] ?? $pkg['packageType']) ?></span>
     <?php endif; ?>
   </div>
 
@@ -64,7 +64,7 @@ require __DIR__ . '/inc/header.php';
       <div class="flex items-center gap-2">
         <p class="text-sm text-foreground/60">Precio</p>
         <?php if ($hasPrice): ?>
-          <div class="flex rounded-full border border-black/10 text-[10px] font-semibold" id="price-currency-toggle">
+          <div class="flex rounded-full border border-border text-[10px] font-semibold" id="price-currency-toggle">
             <?php foreach (['CLP', 'USD', 'EUR'] as $c): ?>
               <button type="button" data-currency="<?= $c ?>" class="price-currency-btn px-2 py-0.5 first:rounded-l-full last:rounded-r-full <?= $c === 'CLP' ? 'bg-brand text-white' : 'text-brand-dark' ?>"><?= $c ?></button>
             <?php endforeach; ?>
@@ -88,7 +88,7 @@ require __DIR__ . '/inc/header.php';
       <h2 class="font-display text-2xl font-bold text-brand-dark">Itinerario</h2>
       <ol class="mt-4 space-y-4">
         <?php foreach ($pkg['itinerary'] as $day): ?>
-          <li class="rounded-lg border border-black/5 p-4">
+          <li class="rounded-lg border border-border p-4">
             <p class="font-semibold text-brand-dark">Día <?= htmlspecialchars((string)($day['dayNumber'] ?? '')) ?> — <?= htmlspecialchars($day['title']) ?></p>
             <div class="prose prose-neutral prose-sm mt-2 max-w-none"><?= $day['description'] ?></div>
           </li>

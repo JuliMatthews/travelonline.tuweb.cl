@@ -24,7 +24,7 @@ require __DIR__ . '/inc/header.php';
   <?php else: ?>
     <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <?php foreach ($posts as $post): ?>
-        <a href="/blog/<?= htmlspecialchars($post['slug']) ?>" class="shine-card group block overflow-hidden rounded-xl border border-black/5 bg-background">
+        <a href="/blog/<?= htmlspecialchars($post['slug']) ?>" class="shine-card group block overflow-hidden rounded-xl border border-border bg-background">
           <div class="relative aspect-[4/3] overflow-hidden bg-linear-to-br from-brand-dark to-brand">
             <?php if ($post['featuredImage']): ?>
               <img src="<?= htmlspecialchars($post['featuredImage']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105">

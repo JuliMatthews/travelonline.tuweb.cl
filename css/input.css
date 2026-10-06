@@ -19,11 +19,18 @@
 /*
  * Dirección de marca "Meridiano" — aprobada 12-09-2026 (Fase 0 del plan).
  * Ciruela + marigold, sin serif: Bricolage Grotesque (display) + Public
- * Sans (texto).
+ * Sans (texto). Modo oscuro por clase (.dark en <html>), no solo por
+ * preferencia del sistema — mismos tokens/valores que admin/ para que la
+ * marca se vea igual en los dos. Ver js/theme-toggle.js.
  */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #f4f0f1;
+  --surface: #ffffff;
+  --surface-muted: #f8f5f6;
   --foreground: #221521;
+  --border: rgb(0 0 0 / 0.08);
 
   --brand: #55305c;
   --brand-dark: #3b2142;
@@ -32,9 +39,26 @@
   --accent-ink: #221004;
 }
 
+.dark {
+  --background: #14101a;
+  --surface: #1d1826;
+  --surface-muted: #241e30;
+  --foreground: #eee7f0;
+  --border: rgb(255 255 255 / 0.08);
+
+  --brand: #a377ab;
+  --brand-dark: #c99fd1;
+  --brand-light: #33263a;
+  --accent: #e8a33d;
+  --accent-ink: #221004;
+}
+
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
   --color-foreground: var(--foreground);
+  --color-border: var(--border);
   --color-brand: var(--brand);
   --color-brand-dark: var(--brand-dark);
   --color-brand-light: var(--brand-light);
@@ -48,6 +72,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 /*
@@ -178,7 +203,7 @@ body {
 }
 
 .info-card {
-  background: color-mix(in srgb, var(--brand-light) 55%, white);
+  background: color-mix(in srgb, var(--brand-light) 55%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--brand) 15%, transparent);
   border-radius: 0.9rem;
   padding: 1.25rem 1.35rem;

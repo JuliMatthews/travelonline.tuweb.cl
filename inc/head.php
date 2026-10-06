@@ -12,5 +12,14 @@ $pageDescription = $pageDescription ?? 'Circuitos, paquetes todo incluido y comb
   <title><?= htmlspecialchars($pageTitle) ?></title>
   <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
   <link rel="stylesheet" href="/css/style.css">
+  <script>
+    // Evita el "flash" de tema incorrecto al cargar — se aplica antes de
+    // que se pinte la página. Ver js/theme-toggle.js.
+    (function () {
+      var stored = localStorage.getItem("to_web_theme");
+      var isDark = stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+      if (isDark) document.documentElement.classList.add("dark");
+    })();
+  </script>
 </head>
 <body class="flex min-h-full flex-col">

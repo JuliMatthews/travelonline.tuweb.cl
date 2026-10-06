@@ -51,7 +51,7 @@ require __DIR__ . '/inc/header.php';
 </section>
 
 <?php if (count($featured) > 0): ?>
-<section class="border-t border-black/5 bg-brand-light/40 px-4 py-16 sm:px-6 sm:py-20">
+<section class="border-t border-border bg-brand-light/40 px-4 py-16 sm:px-6 sm:py-20">
   <div class="mx-auto max-w-6xl">
     <div class="mb-8 flex items-end justify-between gap-4">
       <h2 class="font-display text-2xl font-bold text-brand-dark sm:text-3xl">Paquetes destacados</h2>

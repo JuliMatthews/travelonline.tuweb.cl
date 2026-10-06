@@ -32,15 +32,15 @@ require __DIR__ . '/inc/client_sidebar.php';
       <div>
         <label class="block text-sm font-medium text-brand-dark">Nombre</label>
         <input required type="text" name="name" value="<?= htmlspecialchars($session['client']['name']) ?>"
-          class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
       </div>
       <div>
         <label class="block text-sm font-medium text-brand-dark">Teléfono</label>
         <input type="tel" name="phone" value="<?= htmlspecialchars($session['client']['phone'] ?? '') ?>"
-          class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
       </div>
-      <p id="profile-error" class="hidden text-sm text-red-600"></p>
-      <p id="profile-success" class="hidden text-sm text-green-700"></p>
+      <p id="profile-error" class="hidden text-sm text-red-600 dark:text-red-400"></p>
+      <p id="profile-success" class="hidden text-sm text-green-700 dark:text-green-400"></p>
       <button type="submit" class="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">
         Guardar cambios
       </button>
@@ -60,16 +60,16 @@ require __DIR__ . '/inc/client_sidebar.php';
       <?php if ($flags['has_password']): ?>
         <div>
           <label class="block text-sm font-medium text-brand-dark">Contraseña actual</label>
-          <input required type="password" name="currentPassword" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+          <input required type="password" name="currentPassword" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         </div>
       <?php endif; ?>
       <div>
         <label class="block text-sm font-medium text-brand-dark"><?= $flags['has_password'] ? 'Nueva contraseña' : 'Contraseña' ?></label>
-        <input required type="password" name="newPassword" minlength="8" class="mt-1 w-full rounded-lg border border-black/10 bg-background px-3 py-2">
+        <input required type="password" name="newPassword" minlength="8" class="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2">
         <p class="mt-1 text-xs text-foreground/50">Mínimo 8 caracteres.</p>
       </div>
-      <p id="password-error" class="hidden text-sm text-red-600"></p>
-      <p id="password-success" class="hidden text-sm text-green-700"></p>
+      <p id="password-error" class="hidden text-sm text-red-600 dark:text-red-400"></p>
+      <p id="password-success" class="hidden text-sm text-green-700 dark:text-green-400"></p>
       <button type="submit" class="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">
         <?= $flags['has_password'] ? 'Actualizar contraseña' : 'Crear contraseña' ?>
       </button>
