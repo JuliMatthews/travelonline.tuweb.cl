@@ -12,7 +12,7 @@ $pageDescription = $pageDescription ?? 'Circuitos, paquetes todo incluido y comb
   <title><?= htmlspecialchars($pageTitle) ?></title>
   <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
   <meta name="theme-color" content="#0f1522">
-  <link rel="stylesheet" href="/css/style.css?v=ms2">
+  <link rel="stylesheet" href="/css/style.css?v=ms3">
   <script>
     // Evita el "flash" de tema incorrecto al cargar — se aplica antes de
     // que se pinte la página. Ver js/theme-toggle.js.
