@@ -73,6 +73,13 @@ function row_to_summary(array $row): array {
         'packageType' => $row['package_type'],
         'heroGallery' => $cover ? [$cover] : [],
         'showInPromociones' => (bool) $row['show_in_promociones'],
+        // Datos para las tarjetas del rediseño (precio "desde", noches, región).
+        'durationDays' => isset($row['duration_days']) ? (int) $row['duration_days'] : null,
+        'durationNights' => isset($row['duration_nights']) ? (int) $row['duration_nights'] : null,
+        'priceDisplayMode' => $row['price_display_mode'] ?? null,
+        'priceFromClp' => isset($row['price_from_clp']) ? (int) $row['price_from_clp'] : null,
+        'priceUnit' => $row['price_unit'] ?? null,
+        'regionSlug' => $row['region_slug'] ?? null,
     ];
 }
 
@@ -89,7 +96,7 @@ function get_region_with_packages(string $regionSlug): ?array {
     $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle']);
     $stmt = $mysqli->prepare(
         "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
-                p.package_type, p.show_in_promociones, $cover AS cover
+                p.package_type, p.show_in_promociones, p.duration_days, p.duration_nights, p.price_display_mode, p.price_from_clp, p.price_unit, (SELECT r.slug FROM regions r WHERE r.id = p.region_id) AS region_slug, $cover AS cover
          FROM packages p {$t['join']} WHERE p.region_id = ? AND p.status = 'published' ORDER BY p.title"
     );
     $stmt->bind_param('s', $region['id']);
@@ -123,8 +130,8 @@ function get_featured_packages(): array {
     $cover = package_cover_subquery();
     $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle']);
     $res = $mysqli->query(
-        "SELECT p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
-                p.package_type, p.show_in_promociones, $cover AS cover
+        "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
+                p.package_type, p.show_in_promociones, p.duration_days, p.duration_nights, p.price_display_mode, p.price_from_clp, p.price_unit, (SELECT r.slug FROM regions r WHERE r.id = p.region_id) AS region_slug, $cover AS cover
          FROM packages p {$t['join']}
          WHERE is_featured = 1 AND status = 'published'
          ORDER BY featured_sort_order"
@@ -140,7 +147,7 @@ function get_all_packages(): array {
     $t = translated_select('package_translations', 'package_id', 'p', ['title', 'subtitle']);
     $res = $mysqli->query(
         "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
-                p.package_type, p.show_in_promociones, $cover AS cover
+                p.package_type, p.show_in_promociones, p.duration_days, p.duration_nights, p.price_display_mode, p.price_from_clp, p.price_unit, (SELECT r.slug FROM regions r WHERE r.id = p.region_id) AS region_slug, $cover AS cover
          FROM packages p {$t['join']} WHERE status = 'published' ORDER BY p.title"
     );
     $rows = [];
