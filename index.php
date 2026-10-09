@@ -57,8 +57,6 @@ $ico = [
       <div class="ms-photo ms-hero-photo">
         <img src="/img/hero-maldivas.jpg" alt="<?= $e('home.photo_alt') ?>" fetchpriority="high">
       </div>
-      <div class="ms-float" style="right:-12px;top:30px"><span class="ms-dot"><?= $ico['shield'] ?></span><div><b><?= $e('home.float_years_t') ?></b><?= $e('home.float_years_d') ?></div></div>
-      <div class="ms-float" style="left:-18px;bottom:40px"><span class="ms-dot"><?= $ico['chat'] ?></span><div><b><?= $e('home.float_team_t') ?></b><?= $e('home.float_team_d') ?></div></div>
     </div>
   </div>
 </section>
