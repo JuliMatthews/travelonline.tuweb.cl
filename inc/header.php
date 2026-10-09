@@ -4,6 +4,7 @@
 // promociones, blog, contacto, viajes-medida, area-clientes) para marcar su item.
 require_once __DIR__ . '/regions.php';
 require_once __DIR__ . '/i18n.php';
+require_once __DIR__ . '/logo.php';
 $activeNav = $activeNav ?? '';
 $loc = current_locale();
 $u = fn(string $path = '') => htmlspecialchars(locale_url($loc, $path));
@@ -27,7 +28,7 @@ $iconPlane = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke
 ?>
 <header class="ms-nav">
   <div class="ms-wrap ms-nav-in">
-    <a class="ms-logo" href="<?= $u() ?>"><i></i>Travel Online</a>
+    <a class="ms-logo" href="<?= $u() ?>"><?php render_logo_mark('h'); ?>Travel Online</a>
 
     <nav class="ms-links" aria-label="Menú principal">
       <?php foreach ($navItems as $key => $item): ?>

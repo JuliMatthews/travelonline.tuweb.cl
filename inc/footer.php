@@ -1,4 +1,5 @@
 <?php require_once __DIR__ . '/i18n.php';
+require_once __DIR__ . '/logo.php';
 $loc = current_locale();
 $u = fn(string $path = '') => htmlspecialchars(locale_url($loc, $path));
 ?>
@@ -7,7 +8,7 @@ $u = fn(string $path = '') => htmlspecialchars(locale_url($loc, $path));
   <div class="ms-wrap">
     <div class="ms-foot-in">
       <div>
-        <a class="ms-logo" href="<?= $u() ?>"><i></i>Travel Online</a>
+        <a class="ms-logo" href="<?= $u() ?>"><?php render_logo_mark('f'); ?>Travel Online</a>
         <p style="margin-top:10px"><?= htmlspecialchars(t('footer.address')) ?></p>
       </div>
       <div>

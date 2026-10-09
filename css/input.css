@@ -614,3 +614,17 @@ dialog.ms-dialog { margin: auto; inset: 0; max-height: calc(100vh - 32px); overf
 #g-btn { max-width: 100%; overflow: hidden; }
 #g-btn iframe { max-width: 100% !important; }
 .ms-foot .ms-logo { display: flex; margin: 0; }
+
+/* Isotipo: globo que gira siempre; cada ~12 s un avión le da la vuelta (inc/logo.php). */
+.ms-globe { width: 32px; height: 32px; flex: none; display: inline-block; filter: drop-shadow(0 2px 6px rgb(45 72 116 / .35)); }
+.ms-globe svg { display: block; overflow: visible; }
+.ms-globe-land { animation: ms-globe-spin 14s linear infinite; }
+@keyframes ms-globe-spin {
+  from { transform: translateX(0); }
+  to { transform: translateX(-24px); }
+}
+.ms-logo:hover .ms-globe-land { animation-duration: 3s; }
+@media (prefers-reduced-motion: reduce) {
+  .ms-globe-land { animation: none; }
+  .ms-globe-plane { display: none; }
+}
