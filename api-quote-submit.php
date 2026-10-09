@@ -165,6 +165,23 @@ $stmt->execute();
 $id = $stmt->insert_id;
 $stmt->close();
 
+// Datos de seguimiento del CRM (admin/db/migration-crm.sql): folio con el mismo
+// formato que se le muestra al pasajero (WEB-AAMMDD-NNNN), canal, destino y
+// primer registro del historial.
+$folio = sprintf('WEB-%s-%04d', (new DateTime('now', new DateTimeZone('America/Santiago')))->format('ymd'), $id % 10000);
+$stmt = $mysqli->prepare(
+    "UPDATE quote_requests SET folio = ?, request_type = 'paquete', channel = 'web',
+        destination_text = COALESCE(destination_text, package_title), last_contact_at = NOW() WHERE id = ?"
+);
+$stmt->bind_param('si', $folio, $id);
+$stmt->execute();
+$stmt->close();
+$body = 'Solicitud recibida por el sitio web (cotizador del paquete)';
+$stmt = $mysqli->prepare("INSERT INTO quote_activity (quote_id, kind, body) VALUES (?, 'sistema', ?)");
+$stmt->bind_param('is', $id, $body);
+$stmt->execute();
+$stmt->close();
+
 notify_new_quote($package, $quote, $id, [
     'adults' => $adults,
     'children' => $children,
@@ -176,4 +193,4 @@ notify_new_quote($package, $quote, $id, [
     'phone' => $passengerPhone,
 ], $comments);
 
-echo json_encode(['ok' => true, 'id' => $id]);
+echo json_encode(['ok' => true, 'id' => $id, 'folio' => $folio]);

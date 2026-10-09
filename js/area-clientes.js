@@ -2,7 +2,16 @@
   const dataEl = document.getElementById('area-clientes-data');
   const { loggedIn } = JSON.parse(dataEl.textContent);
 
-  const STATUS_LABEL = { nueva: 'Nueva', en_proceso: 'En proceso', ganada: 'Ganada', perdida: 'Perdida' };
+  // El CRM tiene 6 estados internos; el cliente ve una línea de tiempo simple
+  // (decisión 2026-10-08): Recibida → En preparación → Cotización enviada → Confirmada · Cerrada.
+  const STATUS_LABEL = {
+    nueva: 'Recibida',
+    cotizacion_enviada: 'Cotización enviada',
+    en_seguimiento: 'Cotización enviada',
+    respondido: 'En preparación',
+    venta_cerrada: 'Confirmada',
+    no_interesado: 'Cerrada',
+  };
 
   function formatCLP(clp) {
     return '$' + Math.round(clp).toLocaleString('es-CL');
