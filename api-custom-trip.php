@@ -1,7 +1,7 @@
 <?php
 // Solicitud de "Viaje a medida" (/viajes-a-medida/) → CRM del panel.
 // Se guarda en quote_requests como request_type = 'a_medida' (ver
-// admin/db/migration-crm.sql), con folio WEB-AAMMDD-NNNN, y se envían:
+// admin/db/migration-crm.sql), con folio TOL-AAMMDD-NNNN, y se envían:
 //   - al cliente: "recibimos tu solicitud" + folio + detalle completo
 //   - al equipo (QUOTE_NOTIFICATION_EMAILS): aviso con enlace al panel.
 // Todo se valida acá; el JS del formulario solo ayuda.
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') json_error('Método no permitido', 40
 $body = json_body();
 
 // Anti-spam: campo trampa invisible. Si viene lleno, respondemos "ok" sin guardar.
-if (str_field($body, 'web') !== '') json_ok(['folio' => 'WEB-000000-0000']);
+if (str_field($body, 'web') !== '') json_ok(['folio' => 'TOL-000000-0000']);
 
 // Opciones válidas (mismo orden que el formulario). Se guardan en español,
 // que es el idioma del equipo que las lee en el panel.
@@ -109,7 +109,7 @@ $stmt->execute();
 $id = $stmt->insert_id;
 $stmt->close();
 
-$folio = sprintf('WEB-%s-%04d', (new DateTime('now', new DateTimeZone('America/Santiago')))->format('ymd'), $id % 10000);
+$folio = sprintf('TOL-%s-%04d', (new DateTime('now', new DateTimeZone('America/Santiago')))->format('ymd'), $id % 10000);
 $stmt = $mysqli->prepare('UPDATE quote_requests SET folio = ? WHERE id = ?');
 $stmt->bind_param('si', $folio, $id);
 $stmt->execute();
