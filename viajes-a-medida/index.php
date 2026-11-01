@@ -229,5 +229,5 @@ foreach ($jsKeys as $k) $jsI18n[$k] = t($k);
 <div class="ms-toast" id="toast" role="status" hidden></div>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="/js/viajes-a-medida.js?v=2" defer></script>
+<script src="/js/viajes-a-medida.js?v=3" defer></script>
 <?php require __DIR__ . '/../inc/footer.php'; ?>
