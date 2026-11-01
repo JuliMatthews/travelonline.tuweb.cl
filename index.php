@@ -34,6 +34,7 @@ $ico = [
 
       <!-- Cotizador conversacional: lleva a Viajes a medida con estos datos ya cargados -->
       <form class="ms-quoter" method="get" action="<?= $u('/viajes-a-medida/') ?>">
+        <input type="hidden" name="via" value="asistente"><?php /* el CRM lo registra como canal "Cotizar con asistente" */ ?>
         <label class="ms-q-title" for="q-dest"><?= $e('home.q_title') ?></label>
         <div class="ms-q-row">
           <input class="ms-q-field dest" id="q-dest" name="destino" placeholder="<?= $e('home.q_dest_ph') ?>" maxlength="120" required>

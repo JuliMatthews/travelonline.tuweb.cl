@@ -14,6 +14,7 @@ $pre = [
     'cuando' => in_array((int) ($_GET['cuando'] ?? 0), [1, 2, 3, 4], true) ? (int) $_GET['cuando'] : 1,
     'adultos' => max(1, min(20, (int) ($_GET['personas'] ?? 2))),
     'tipo' => in_array((int) ($_GET['tipo'] ?? 0), range(1, 8), true) ? (int) $_GET['tipo'] : 0,
+    'via' => ($_GET['via'] ?? '') === 'asistente' ? 'asistente' : 'web',
 ];
 
 $pageTitle = t('vam.title');
@@ -145,6 +146,7 @@ foreach ($jsKeys as $k) $jsI18n[$k] = t($k);
                 <select class="ms-input" id="codigo" name="codigo" aria-label="+56"><option value="+56">🇨🇱 +56</option><option value="+51">🇵🇪 +51</option><option value="+54">🇦🇷 +54</option><option value="+55">🇧🇷 +55</option><option value="+57">🇨🇴 +57</option><option value="+52">🇲🇽 +52</option><option value="+1">🇺🇸 +1</option><option value="+34">🇪🇸 +34</option></select>
                 <input class="ms-input" type="tel" id="whatsapp" name="whatsapp" placeholder="9 1234 5678" autocomplete="tel-national" maxlength="20" value="<?= htmlspecialchars(preg_replace('/^\+?56\s*/', '', (string) ($client['phone'] ?? ''))) ?>">
               </div><span class="ms-err"></span></div>
+            <input type="hidden" name="via" value="<?= htmlspecialchars($pre['via']) ?>">
             <input class="ms-hp" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
             <div class="ms-field full" id="fd-consentimiento"><label class="ms-consent"><input type="checkbox" id="consentimiento" name="consentimiento"><span><?= $e('vam.consent') ?> <a href="<?= htmlspecialchars(locale_url($loc, '/legal/politicas-de-privacidad')) ?>" target="_blank"><?= $e('vam.privacy') ?></a>.</span></label><span class="ms-err"></span></div>
           </div>

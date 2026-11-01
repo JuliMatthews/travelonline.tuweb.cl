@@ -142,6 +142,7 @@
       whatsapp: $('#whatsapp').value,
       consentimiento: $('#consentimiento').checked,
       web: document.querySelector('input[name="web"]').value,
+      via: document.querySelector('input[name="via"]').value,
     };
     try {
       const res = await fetch('/api-custom-trip.php', {

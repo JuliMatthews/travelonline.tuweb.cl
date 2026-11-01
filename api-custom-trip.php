@@ -94,15 +94,18 @@ $detailsJson = json_encode($details, JSON_UNESCAPED_UNICODE);
 $budgetTotal = $budgetPp !== null ? $budgetPp * ($adults + $children) : null;
 $commentsOrNull = $comments !== '' ? $comments : null;
 
+// Canal: si la solicitud empezó en el cotizador de la portada queda como "Cotizar con asistente".
+$channel = str_field($body, 'via') === 'asistente' ? 'asistente' : 'web';
+
 $stmt = $mysqli->prepare(
     "INSERT INTO quote_requests (request_type, channel, destination_text, origin_city, travel_type, budget_range, budget_clp,
         client_id, adults, children, selected_addons_json, preferred_date_from, preferred_date_to,
         passenger_name, passenger_email, passenger_phone, comments, details_json, last_contact_at)
-     VALUES ('a_medida', 'web', ?, ?, ?, ?, ?, ?, ?, ?, '[]', ?, ?, ?, ?, ?, ?, ?, NOW())"
+     VALUES ('a_medida', ?, ?, ?, ?, ?, ?, ?, ?, ?, '[]', ?, ?, ?, ?, ?, ?, ?, NOW())"
 );
 $stmt->bind_param(
-    'ssssisiisssssss',
-    $dest, $origin, $typeLabel, $budgetLabel, $budgetTotal, $clientId, $adults, $children,
+    'sssssisiisssssss',
+    $channel, $dest, $origin, $typeLabel, $budgetLabel, $budgetTotal, $clientId, $adults, $children,
     $dateFrom, $dateTo, $name, $email, $phone, $commentsOrNull, $detailsJson
 );
 $stmt->execute();
