@@ -15,6 +15,7 @@ if (!$post) {
 }
 
 $pageTitle = $post['title'] . ' — Travel Online';
+$wspContext = ['kind' => 'post', 'title' => $post['title'], 'path' => '/blog/' . $slug];
 require __DIR__ . '/inc/head.php';
 require __DIR__ . '/inc/header.php';
 ?>

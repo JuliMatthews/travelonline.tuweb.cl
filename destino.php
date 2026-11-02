@@ -17,6 +17,7 @@ if (!$region) {
 }
 
 $pageTitle = $region['name'] . ' — Travel Online';
+$wspContext = ['kind' => 'region', 'title' => $region['name'], 'path' => '/destinos/' . $regionSlug];
 $activeNav = 'destinos';
 require __DIR__ . '/inc/head.php';
 require __DIR__ . '/inc/header.php';

@@ -21,6 +21,7 @@ $notIncluded = $pkg['notIncluded'] ? array_filter(array_map('trim', explode("\n"
 $hasPrice = $pkg['priceDisplayMode'] === 'desde' && $pkg['priceFromClp'] !== null;
 
 $pageTitle = $pkg['title'] . ' — Travel Online';
+$wspContext = ['kind' => 'package', 'title' => $pkg['title'], 'path' => '/paquetes/' . $slug];
 $pageDescription = $pkg['subtitle'] ?: $pageDescription ?? null;
 require __DIR__ . '/inc/head.php';
 require __DIR__ . '/inc/header.php';

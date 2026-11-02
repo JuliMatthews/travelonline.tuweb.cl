@@ -21,6 +21,9 @@ return [
     'footer.privacy' => 'Privacidad',
     'footer.whatsapp_aria' => 'Escríbenos por WhatsApp',
     'footer.whatsapp_message' => 'Hola, me gustaría cotizar un viaje',
+    'footer.wsp_package' => 'Hola, vi el paquete "{title}" en su sitio ({url}) y me gustaría cotizarlo. Seríamos ___ personas y viajaríamos en ___.',
+    'footer.wsp_region' => 'Hola, estoy viendo los viajes a {title} en su sitio ({url}) y me gustaría cotizar. Seríamos ___ personas y viajaríamos en ___.',
+    'footer.wsp_post' => 'Hola, leí su artículo "{title}" ({url}) y me gustaría consultar por un viaje.',
 
     'home.title' => 'Travel Online — Tu próximo viaje empieza aquí',
     'home.hero_title' => 'Tu próximo viaje empieza aquí',
