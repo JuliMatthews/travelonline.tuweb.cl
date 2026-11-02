@@ -44,6 +44,17 @@ require __DIR__ . '/inc/header.php';
     <p class="mt-2 text-lg text-foreground/70"><?= htmlspecialchars($pkg['subtitle']) ?></p>
   <?php endif; ?>
 
+  <?php
+  // Descripción general del programa (texto simple; las etiquetas HTML antiguas se quitan).
+  $descText = trim(html_entity_decode(strip_tags(preg_replace('#<br\s*/?>|</p>#i', "\n", (string) ($pkg['content'] ?? ''))), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+  if ($descText !== ''): ?>
+    <div class="mt-5 max-w-3xl space-y-3 text-base leading-relaxed text-foreground/80">
+      <?php foreach (preg_split('/\n{2,}/', $descText) as $para): ?>
+        <p><?= nl2br(htmlspecialchars(trim($para))) ?></p>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+
   <?php if (count($pkg['heroGallery']) > 0): ?>
     <div class="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
       <?php foreach ($pkg['heroGallery'] as $src): ?>
