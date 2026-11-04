@@ -64,7 +64,7 @@ $messageBody = "Hola $name,\r\n\r\n"
     . "Gracias por crear tu cuenta en Travel Online. Confirma tu correo entrando a este link:\r\n\r\n"
     . "$verifyUrl\r\n\r\n"
     . "Si no creaste esta cuenta, puedes ignorar este correo.\r\n";
-$headers = "From: Travel Online <noreply@travelonline.tuweb.cl>\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+$headers = "From: Travel Online <noreply@travelonline.cl>\r\nContent-Type: text/plain; charset=UTF-8\r\n";
 @mail($email, $subject, $messageBody, $headers);
 
 json_ok(['message' => 'Cuenta creada. Revisa tu correo para confirmarla antes de iniciar sesión.']);

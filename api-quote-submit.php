@@ -41,7 +41,7 @@ function notify_new_quote(array $package, array $quote, int $id, array $passenge
         : '—';
 
     $lines = [
-        'Llegó una nueva solicitud de cotización desde travelonline.tuweb.cl.',
+        'Llegó una nueva solicitud de cotización desde travelonline.cl.',
         '',
         'Paquete: ' . $package['title'],
         'Pasajeros: ' . $quote['passengers'] . ' (' . $passenger['adults'] . ' adultos, ' . $passenger['children'] . ' niños)',
@@ -60,7 +60,7 @@ function notify_new_quote(array $package, array $quote, int $id, array $passenge
 
     $subject = '=?UTF-8?B?' . base64_encode('Nueva cotización — ' . $package['title']) . '?=';
     $messageBody = implode("\r\n", $lines);
-    $headers = "From: Travel Online <noreply@travelonline.tuweb.cl>\r\n"
+    $headers = "From: Travel Online <noreply@travelonline.cl>\r\n"
         . 'Reply-To: ' . $passenger['name'] . ' <' . $passenger['email'] . ">\r\n"
         . "Content-Type: text/plain; charset=UTF-8\r\n";
 

@@ -139,7 +139,7 @@ $detailLines = [
     'Correo: ' . $email,
     'WhatsApp: ' . $phone,
 ];
-$from = "From: Travel Online <noreply@travelonline.tuweb.cl>\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+$from = "From: Travel Online <noreply@travelonline.cl>\r\nContent-Type: text/plain; charset=UTF-8\r\n";
 $subjectEnc = fn(string $s) => '=?UTF-8?B?' . base64_encode($s) . '?=';
 
 // Al cliente (en su idioma para el saludo; el detalle va tal cual lo pidió).

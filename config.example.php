@@ -10,7 +10,7 @@ define('DB_USER', 'travelonline');
 define('DB_PASS', 'travelonline_local_only');
 
 // URL pública del panel (admin/) — de ahí se sirven las imágenes subidas
-// (/uploads/<id>.<ext>). En producción: https://app.travelonline.tuweb.cl
+// (/uploads/<id>.<ext>). En producción: https://app.travelonline.cl
 define('ADMIN_PUBLIC_URL', 'http://localhost:8801');
 
 define('QUOTE_NOTIFICATION_EMAILS', 'reservas@travelonline.cl,gerencia@travelonline.cl');
