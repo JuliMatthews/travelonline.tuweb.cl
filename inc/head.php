@@ -12,6 +12,9 @@ $pageDescription = $pageDescription ?? 'Circuitos, paquetes todo incluido y comb
   <title><?= htmlspecialchars($pageTitle) ?></title>
   <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
   <meta name="theme-color" content="#0f1522">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/css/style.css?v=ms3">
   <script>
     // Evita el "flash" de tema incorrecto al cargar — se aplica antes de
