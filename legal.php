@@ -1,0 +1,26 @@
+<?php
+// Páginas legales (condiciones de reserva, cookies, privacidad). El texto vive en
+// static_pages y se edita desde el panel > Páginas, igual que Nosotros y Contacto.
+require_once __DIR__ . '/inc/content.php';
+require_once __DIR__ . '/inc/static_page.php';
+
+const LEGAL_SLUGS = ['condiciones-de-reserva', 'politica-de-cookies', 'politicas-de-privacidad'];
+
+$slug = $_GET['slug'] ?? '';
+$page = in_array($slug, LEGAL_SLUGS, true) ? get_page_by_slug($slug) : null;
+if (!$page) {
+    http_response_code(404);
+    $pageTitle = t('page_not_found.title') . ' — Travel Online';
+    require __DIR__ . '/inc/head.php';
+    require __DIR__ . '/inc/header.php';
+    echo '<div class="mx-auto max-w-4xl px-4 py-16 sm:px-6"><p class="text-foreground/60">' . htmlspecialchars(t('page_not_found.title')) . '.</p></div>';
+    require __DIR__ . '/inc/footer.php';
+    exit;
+}
+
+$pageTitle = $page['title'] . ' — Travel Online';
+$activeNav = '';
+require __DIR__ . '/inc/head.php';
+require __DIR__ . '/inc/header.php';
+render_static_page($page);
+require __DIR__ . '/inc/footer.php';

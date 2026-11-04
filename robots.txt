@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api-
+Disallow: /area-clientes
+Disallow: /cotizar/gracias
+Allow: /
+
+Sitemap: https://travelonline.cl/sitemap.xml
