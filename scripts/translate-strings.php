@@ -1,4 +1,5 @@
 <?php
+if (PHP_SAPI !== 'cli') { http_response_code(403); exit('Solo se ejecuta desde la terminal.'); }
 // Genera/actualiza lang/en.php y lang/pt.php a partir de lang/es.php usando
 // la API gratuita de MyMemory (sin clave, sin costo). Re-ejecutable: una
 // llave ya traducida a mano (no se puede distinguir automáticamente de una

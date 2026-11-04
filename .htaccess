@@ -1,4 +1,5 @@
 ErrorDocument 404 /404.php
+Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -10,6 +11,11 @@ ErrorDocument 404 /404.php
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} ^www\. [NC]
   RewriteRule ^ https://travelonline.cl%{REQUEST_URI} [R=301,L]
+
+  # Archivos internos que no deben servirse por la web (herramientas, esquema, includes).
+  RewriteRule ^(scripts|db|inc|lang|node_modules|\.git)(/|$) - [F,L]
+  RewriteRule ^config(\.example)?\.php$ - [F,L]
+  RewriteRule \.(md|sh|sql|lock|json|tsx?|yaml)$ - [F,NC,L]
 
   # Redirecciones 301 del WordPress anterior (permalinks simples: ?page_id=N, ?product=slug).
   # Solo aplican en la raíz; el destino termina en ? para descartar la query vieja.
