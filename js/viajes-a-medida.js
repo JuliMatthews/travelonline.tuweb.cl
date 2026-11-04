@@ -38,7 +38,7 @@
   function valid(n) {
     if (n === 1) return bad('destino', $('#destino').value.trim().length < 2 ? t('vam.err_dest') : '');
     if (n === 3) {
-      const a = bad('nombre', /\S+\s+\S+/.test($('#nombre').value.trim()) ? '' : t('vam.err_name'));
+      const a = bad('nombre', $('#nombre').value.trim().length >= 2 ? '' : t('vam.err_name'));
       const b = bad('correo', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('#correo').value.trim()) ? '' : t('vam.err_email'));
       const c = bad('whatsapp', $('#whatsapp').value.replace(/\D/g, '').length >= 8 ? '' : t('vam.err_phone'));
       const d = bad('consentimiento', $('#consentimiento').checked ? '' : t('vam.err_consent'));

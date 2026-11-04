@@ -97,12 +97,7 @@ $clientSession = current_client();
 if ($clientSession) {
     $clientId = $clientSession['client']['id'];
 } else {
-    $stmt = db()->prepare('SELECT id FROM clients WHERE email = ?');
-    $stmt->bind_param('s', $passengerEmail);
-    $stmt->execute();
-    $clientRow = $stmt->get_result()->fetch_assoc();
-    $stmt->close();
-    $clientId = $clientRow['id'] ?? null;
+    $clientId = find_or_create_client_by_contact($passengerEmail, $passengerName, $passengerPhone);
 }
 
 $comments = trim((string) ($body['comments'] ?? ''));

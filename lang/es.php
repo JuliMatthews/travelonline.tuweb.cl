@@ -225,7 +225,7 @@ return [
     'vam.next_3_t' => 'Recibes tu cotización',
     'vam.next_3_d' => 'Con precios, condiciones y formas de pago.',
     'vam.err_dest' => 'Cuéntanos a dónde quieres viajar.',
-    'vam.err_name' => 'Escribe tu nombre y apellido.',
+    'vam.err_name' => 'Escribe tu nombre.',
     'vam.err_email' => 'Revisa tu correo.',
     'vam.err_phone' => 'Necesitamos un número válido.',
     'vam.err_consent' => 'Debes aceptar para enviar la solicitud.',

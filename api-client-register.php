@@ -34,14 +34,14 @@ if ($existing) {
     // el historial de cotizaciones ya vinculado a ese cliente.
     $id = $existing['id'];
     $hash = password_hash($password, PASSWORD_BCRYPT);
-    $stmt = $mysqli->prepare('UPDATE clients SET password_hash = ?, name = ?, phone = COALESCE(?, phone) WHERE id = ?');
+    $stmt = $mysqli->prepare('UPDATE clients SET password_hash = ?, name = ?, phone = COALESCE(?, phone), source = IF(source = \'cotizacion_web\', \'registro\', source) WHERE id = ?');
     $stmt->bind_param('ssss', $hash, $name, $phone, $id);
     $stmt->execute();
     $stmt->close();
 } else {
     $id = new_uuid();
     $hash = password_hash($password, PASSWORD_BCRYPT);
-    $stmt = $mysqli->prepare('INSERT INTO clients (id, email, password_hash, name, phone) VALUES (?, ?, ?, ?, ?)');
+    $stmt = $mysqli->prepare('INSERT INTO clients (id, email, password_hash, name, phone, source) VALUES (?, ?, ?, ?, ?, \'registro\')');
     $stmt->bind_param('sssss', $id, $email, $hash, $name, $phone);
     $stmt->execute();
     $stmt->close();

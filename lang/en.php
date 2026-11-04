@@ -219,7 +219,7 @@ return array (
   'vam.next_3_t' => 'You get your quote',
   'vam.next_3_d' => 'With prices, terms and payment options.',
   'vam.err_dest' => 'Tell us where you want to go.',
-  'vam.err_name' => 'Enter your full name.',
+  'vam.err_name' => 'Enter your name.',
   'vam.err_email' => 'Check your email address.',
   'vam.err_phone' => 'We need a valid number.',
   'vam.err_consent' => 'You must accept to send the request.',

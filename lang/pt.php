@@ -219,7 +219,7 @@ return array (
   'vam.next_3_t' => 'Você recebe seu orçamento',
   'vam.next_3_d' => 'Com preços, condições e formas de pagamento.',
   'vam.err_dest' => 'Conte para onde você quer viajar.',
-  'vam.err_name' => 'Escreva seu nome e sobrenome.',
+  'vam.err_name' => 'Escreva seu nome.',
   'vam.err_email' => 'Confira seu e-mail.',
   'vam.err_phone' => 'Precisamos de um número válido.',
   'vam.err_consent' => 'Você precisa aceitar para enviar a solicitação.',

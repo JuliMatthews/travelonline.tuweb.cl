@@ -80,3 +80,40 @@ function clear_client_session_cookie(): void {
         'httponly' => true,
     ]);
 }
+
+// Cliente por correo: lo reutiliza si existe, y si no lo crea (sin contraseña,
+// sin verificar, origen "cotizacion_web"). Así TODA solicitud queda ligada a una
+// ficha en el CRM aunque la persona no tenga cuenta. Si luego se registra o
+// entra con Google con ese correo, api-client-register / upsert_client_from_google
+// reutilizan esta misma ficha y conservan el historial.
+function find_or_create_client_by_contact(string $email, string $name, ?string $phone): string {
+    $mysqli = db();
+    $email = strtolower(trim($email));
+    $stmt = $mysqli->prepare('SELECT id FROM clients WHERE email = ?');
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    if ($row) {
+        // Completa el teléfono si la ficha no lo tenía; nunca pisa datos existentes.
+        if ($phone) {
+            $stmt = $mysqli->prepare('UPDATE clients SET phone = ? WHERE id = ? AND (phone IS NULL OR phone = "")');
+            $stmt->bind_param('ss', $phone, $row['id']);
+            $stmt->execute();
+            $stmt->close();
+        }
+        return $row['id'];
+    }
+    $id = new_uuid();
+    $stmt = $mysqli->prepare("INSERT IGNORE INTO clients (id, email, name, phone, source) VALUES (?, ?, ?, ?, 'cotizacion_web')");
+    $stmt->bind_param('ssss', $id, $email, $name, $phone);
+    $stmt->execute();
+    $stmt->close();
+    // Si otra petición lo creó en paralelo (INSERT IGNORE no insertó), lo relee.
+    $stmt = $mysqli->prepare('SELECT id FROM clients WHERE email = ?');
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $id = $stmt->get_result()->fetch_assoc()['id'];
+    $stmt->close();
+    return $id;
+}

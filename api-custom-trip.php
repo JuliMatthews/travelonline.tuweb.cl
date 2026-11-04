@@ -57,7 +57,7 @@ $budgetKey = (int) ($body['presupuesto'] ?? 0);
 $comments = mb_substr(str_field($body, 'comentarios'), 0, 1200);
 
 $name = mb_substr(str_field($body, 'nombre'), 0, 120);
-if (!preg_match('/\S+\s+\S+/u', $name)) $errors['nombre'] = 'Nombre y apellido requeridos';
+if (mb_strlen($name) < 2) $errors['nombre'] = 'Falta el nombre';
 $email = strtolower(mb_substr(str_field($body, 'correo'), 0, 160));
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['correo'] = 'Correo inválido';
 $cc = preg_replace('/[^0-9+]/', '', str_field($body, 'codigo')) ?: '+56';
@@ -76,11 +76,7 @@ $clientSession = current_client();
 if ($clientSession) {
     $clientId = $clientSession['client']['id'];
 } else {
-    $stmt = $mysqli->prepare('SELECT id FROM clients WHERE email = ?');
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $clientId = $stmt->get_result()->fetch_assoc()['id'] ?? null;
-    $stmt->close();
+    $clientId = find_or_create_client_by_contact($email, $name, $phone);
 }
 
 $details = [

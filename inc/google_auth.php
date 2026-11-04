@@ -50,7 +50,7 @@ function upsert_client_from_google(array $googleClaims): array {
 
     if ($existing) {
         $stmt = $mysqli->prepare(
-            'UPDATE clients SET google_sub = ?, name = IF(name = "" OR name IS NULL, ?, name),
+            'UPDATE clients SET google_sub = ?, source = IF(source = "cotizacion_web", "google", source), name = IF(name = "" OR name IS NULL, ?, name),
                 email_verified_at = COALESCE(email_verified_at, NOW()) WHERE id = ?'
         );
         $stmt->bind_param('sss', $googleClaims['sub'], $googleClaims['name'], $existing['id']);
@@ -60,7 +60,7 @@ function upsert_client_from_google(array $googleClaims): array {
     } else {
         $id = new_uuid();
         $stmt = $mysqli->prepare(
-            'INSERT INTO clients (id, email, name, google_sub, email_verified_at) VALUES (?, ?, ?, ?, NOW())'
+            'INSERT INTO clients (id, email, name, google_sub, email_verified_at, source) VALUES (?, ?, ?, ?, NOW(), \'google\')'
         );
         $stmt->bind_param('ssss', $id, $googleClaims['email'], $googleClaims['name'], $googleClaims['sub']);
         $stmt->execute();
