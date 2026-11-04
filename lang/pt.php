@@ -31,6 +31,8 @@ return array (
   'home.package_singular' => 'pacote',
   'home.package_plural' => 'pacotes',
   'home.featured_title' => 'Pacotes em destaque',
+  'package.departures' => 'Saídas',
+  'package.departures_next' => 'Próximas datas de saída',
   'package.duration' => 'Duração',
   'package.days' => 'dias',
   'package.nights' => 'noites',

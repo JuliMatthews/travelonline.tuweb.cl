@@ -163,7 +163,7 @@ function get_package_by_slug(string $slug): ?array {
         "SELECT p.id, p.slug, {$t['select']['title']} AS title, {$t['select']['subtitle']} AS subtitle,
                 p.package_type, p.show_in_promociones,
                 {$t['select']['content']} AS content, p.duration_days, p.duration_nights, p.price_display_mode,
-                p.price_from_clp, p.price_unit, {$t['select']['included']} AS included, {$t['select']['not_included']} AS not_included,
+                p.price_from_clp, p.price_unit, p.departures_text, {$t['select']['included']} AS included, {$t['select']['not_included']} AS not_included,
                 $cover AS cover, r.slug AS region_slug
          FROM packages p {$t['join']}
          LEFT JOIN regions r ON r.id = p.region_id
@@ -217,7 +217,18 @@ function get_package_by_slug(string $slug): ?array {
     }
     $stmt->close();
 
+    // Salidas: solo las próximas, y sin el color/tarifa del proveedor (no tiene leyenda para el cliente).
+    $departures = [];
+    $stmt = $mysqli->prepare('SELECT DISTINCT departs_on FROM package_departures WHERE package_id = ? AND departs_on >= CURDATE() ORDER BY departs_on LIMIT 60');
+    $stmt->bind_param('s', $id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    while ($r = $res->fetch_assoc()) $departures[] = $r['departs_on'];
+    $stmt->close();
+
     $summary = row_to_summary($row);
+    $summary['departuresText'] = $row['departures_text'] ?: null;
+    $summary['departures'] = $departures;
     $summary['heroGallery'] = $images;
 
     return array_merge($summary, [

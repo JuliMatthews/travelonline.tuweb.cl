@@ -61,6 +61,34 @@ require __DIR__ . '/inc/header.php';
           </div>
         </div>
         <p class="mt-1 text-xs text-foreground/50">Aproximada — es solo referencial para armar la cotización.</p>
+        <?php if ($initialPackage && !empty($initialPackage['departures'])): ?>
+          <div class="mt-3" id="departure-picks" data-days="<?= (int) ($initialPackage['durationDays'] ?? 0) ?>">
+            <p class="text-xs font-semibold text-foreground/70">Salidas de este programa (toca una para usarla):</p>
+            <div class="mt-1.5 flex flex-wrap gap-1.5">
+              <?php foreach (array_slice($initialPackage['departures'], 0, 14) as $d): ?>
+                <button type="button" data-date="<?= htmlspecialchars($d) ?>" class="rounded-full border border-border px-3 py-1 text-xs font-semibold text-brand-dark hover:bg-brand-light/50"><?= htmlspecialchars(date('d/m/Y', strtotime($d))) ?></button>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <script>
+            (function () {
+              var box = document.getElementById("departure-picks");
+              if (!box) return;
+              var days = parseInt(box.dataset.days || "0", 10);
+              box.querySelectorAll("button[data-date]").forEach(function (b) {
+                b.addEventListener("click", function () {
+                  var from = b.dataset.date;
+                  document.getElementById("date-from").value = from;
+                  var to = "";
+                  if (days > 0) { var d = new Date(from + "T12:00:00"); d.setDate(d.getDate() + days - 1); to = d.toISOString().slice(0, 10); }
+                  document.getElementById("date-to").value = to;
+                  box.querySelectorAll("button").forEach(function (x) { x.classList.remove("bg-brand-light", "ring-2", "ring-brand"); });
+                  b.classList.add("bg-brand-light", "ring-2", "ring-brand");
+                });
+              });
+            })();
+          </script>
+        <?php endif; ?>
       </div>
 
       <div id="room-options-block" class="hidden">

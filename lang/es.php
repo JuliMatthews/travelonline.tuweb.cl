@@ -36,6 +36,8 @@ return [
     'home.package_plural' => 'paquetes',
     'home.featured_title' => 'Paquetes destacados',
 
+    'package.departures' => 'Salidas',
+    'package.departures_next' => 'Próximas fechas de salida',
     'package.duration' => 'Duración',
     'package.days' => 'días',
     'package.nights' => 'noches',

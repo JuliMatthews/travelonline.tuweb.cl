@@ -56,13 +56,49 @@ require __DIR__ . '/inc/header.php';
   <?php endif; ?>
 
   <?php if (count($pkg['heroGallery']) > 0): ?>
-    <div class="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
-      <?php foreach ($pkg['heroGallery'] as $src): ?>
-        <div class="relative aspect-square overflow-hidden rounded-lg">
-          <img src="<?= htmlspecialchars($src) ?>" alt="<?= htmlspecialchars($pkg['title']) ?>" loading="lazy" class="absolute inset-0 h-full w-full object-cover">
-        </div>
-      <?php endforeach; ?>
+    <?php $heroSrc = $pkg['heroGallery'][0]; $moreImgs = array_slice($pkg['heroGallery'], 1); ?>
+    <?php // La primera foto va como portada ancha (las de los catálogos de proveedores son tiras panorámicas); el resto, en cuadrícula. ?>
+    <div class="relative mt-8 aspect-[16/7] overflow-hidden rounded-xl bg-brand-light">
+      <img src="<?= htmlspecialchars($heroSrc) ?>" alt="<?= htmlspecialchars($pkg['title']) ?>" class="absolute inset-0 h-full w-full object-cover">
     </div>
+    <?php if (count($moreImgs) > 0): ?>
+      <div class="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <?php foreach ($moreImgs as $src): ?>
+          <div class="relative aspect-video overflow-hidden rounded-lg">
+            <img src="<?= htmlspecialchars($src) ?>" alt="<?= htmlspecialchars($pkg['title']) ?>" loading="lazy" class="absolute inset-0 h-full w-full object-cover">
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+  <?php endif; ?>
+
+  <?php if (!empty($pkg['departuresText']) || !empty($pkg['departures'])): ?>
+    <?php
+      $monthNames = [
+        'es' => ['', 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        'en' => ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        'pt' => ['', 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+      ][current_locale()] ?? [];
+      $byMonth = [];
+      foreach ($pkg['departures'] as $d) { $byMonth[substr($d, 0, 7)][] = (int) substr($d, 8, 2); }
+    ?>
+    <section class="mt-8 rounded-xl border border-border p-6">
+      <h2 class="font-display text-lg font-bold text-brand-dark"><?= htmlspecialchars(t('package.departures')) ?></h2>
+      <?php if (!empty($pkg['departuresText'])): ?>
+        <p class="mt-2 text-foreground/80"><?= htmlspecialchars($pkg['departuresText']) ?></p>
+      <?php endif; ?>
+      <?php if ($byMonth): ?>
+        <p class="mt-3 text-sm font-semibold text-foreground/60"><?= htmlspecialchars(t('package.departures_next')) ?></p>
+        <ul class="mt-2 flex flex-wrap gap-2">
+          <?php foreach ($byMonth as $ym => $days): $mm = (int) substr($ym, 5, 2); ?>
+            <li class="rounded-lg bg-brand-light/60 px-3 py-1.5 text-sm">
+              <span class="font-semibold text-brand-dark"><?= htmlspecialchars($monthNames[$mm] ?? '') ?> <?= htmlspecialchars(substr($ym, 0, 4)) ?></span>
+              <span class="text-foreground/70">· <?= htmlspecialchars(implode(' · ', $days)) ?></span>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+    </section>
   <?php endif; ?>
 
   <div class="mt-8 flex flex-wrap items-center gap-6 rounded-xl bg-brand-light/50 p-6">

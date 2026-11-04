@@ -31,6 +31,8 @@ return array (
   'home.package_singular' => 'package',
   'home.package_plural' => 'packages',
   'home.featured_title' => 'Featured Packages',
+  'package.departures' => 'Departures',
+  'package.departures_next' => 'Upcoming departure dates',
   'package.duration' => 'Duration',
   'package.days' => 'days',
   'package.nights' => 'nights',
